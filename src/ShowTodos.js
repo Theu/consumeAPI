@@ -1,61 +1,67 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import './ShowTodos.css';
 import {connect} from 'react-redux';
-import {
-  fetchTodo,
+import { 
+  loadTodos,
   selectorGetTodo,
-  selectorIsFetching
-} from './actions/index'
+  selectorIsFetching 
+} from './actions/todoActions';
 
+import './ShowTodos.css';
 
-class ShowTodos extends Component {
+class ShowTodos extends React.Component {
 
   static propTypes = {
-    todos: PropTypes.array,
+    todos: PropTypes.object,
     isFetched: PropTypes.bool,
     fetchTodo: PropTypes.func
   }
-
+  
   componentWillMount() {
-    this.props.fetchTodo();
+    this.props.loadTodos();
   }
+
 
   render() {
     const {
       todos,
       isFetching
     } = this.props;
-    console.log('------------------------------------');
-    console.log("QUI", todos);
-    console.log("todos.lenght", todos);
-    console.log("isFetched", isFetching);
-    console.log('------------------------------------');
-    if(isFetching) {
+
+    if(!isFetching) {
       return <p>Loading...</p>
-    } else if (!isFetching) {
-    const useThis = JSON.stringify(todos);
-    console.log('/',useThis);
-    return (
-      <div className="ShowTodos">
-        <header className="ShowTodos-header">
-          <h1 className="ShowTodos-title">Some HEADER</h1>
-        </header>
-        <ul className="ShowTodos-intro">
-          {JSON.parse(useThis).map(([key, value]) => value.doc.title)}
-        </ul>
-      </div>
-    );
-  } else {
-    return <p>what ever</p>
-  }
-  }
+    } else if (isFetching) {
+      const resultStringify = JSON.stringify(todos.todos) 
+      const preparedTodos = JSON.parse(resultStringify).map(([key, value]) => {
+        return [value.doc.title, value.id]
+      })
+      
+      return (
+        <div>
+          <h1>Todos</h1>
+          <ul>
+            {preparedTodos.map(([todo, id]) => {
+              return (
+                <li key={id}>
+                  {todo}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )
+    }
+    
+  }    
 }
 
 
-const mapStateToProps = (state) => ({
-  todos: selectorGetTodo(state),
-  isFetching: selectorIsFetching(state)
-})
+function mapStateToProps(state, ownProps) {
+  return {
+      todos: selectorGetTodo(state),
+      isFetching: selectorIsFetching(state.todos)
+  };
+}
 
-export default connect(mapStateToProps, {fetchTodo})(ShowTodos);
+
+export default connect(mapStateToProps, {loadTodos})(ShowTodos);
