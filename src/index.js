@@ -1,21 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
+// import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import configureStore from './store/configureStore';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { loadTodos } from './actions/todoActions';
 
 import './index.css';
 import ShowTodos from './ShowTodos';
-import {todosReducer} from './reducers/reducer';
 
 import registerServiceWorker from './registerServiceWorker';
-import { fetchTodo } from './actions/index';
 
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
-ReactDOM.render(
-        <Provider store={createStoreWithMiddleware(todosReducer)}>
+const store = configureStore();
+store.dispatch(loadTodos());
+
+render(
+        <Provider store={store}>
                 <ShowTodos />
         </Provider>, document.getElementById('root'));
 registerServiceWorker();
