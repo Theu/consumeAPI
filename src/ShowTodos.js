@@ -20,15 +20,8 @@ class ShowTodos extends React.Component {
   }
 
   static propTypes = {
-    todos: PropTypes.object,
     isFetched: PropTypes.bool,
-    fetchTodo: PropTypes.func,
-    onClick: PropTypes.func,
-    dispatch: PropTypes.func
-  }
-
-  componentWillMount() {
-    this.props.loadTodos();
+    onClick: PropTypes.func
   }
 
   render() {
@@ -36,7 +29,6 @@ class ShowTodos extends React.Component {
       todos,
       isFetching
     } = this.props;
-
     if(!isFetching) {
       return <p>Loading...</p>
     } else if (isFetching) {
@@ -88,7 +80,7 @@ class ShowTodos extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
       todos: selectorGetTodo(state),
-      isFetching: selectorIsFetching(state.todos)
+      isFetching: selectorIsFetching(state)
   };
 }
 

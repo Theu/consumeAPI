@@ -5,7 +5,7 @@ const baseURL = require('../tools/axiosBaseURL');
 //::: THIS IS AN ACTION CREATOR
 export function todoSearch() {
     return {
-        type: types.START_FETCHING
+        type: types.LOAD_TODOS_START
     }
 }
 
@@ -51,10 +51,6 @@ export function loadTodos() {
 
 
 
-export function selectorGetTodo(state) {
-    return state.todos;
-}
+export const selectorGetTodo = state => state.todos
 
-export function selectorIsFetching(state) {
-    return state.isFetching;
-}
+export const selectorIsFetching = state => state.todos.isFetching;
