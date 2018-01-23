@@ -7,10 +7,17 @@ export default function todoReducer(state = {isFetching: false, todos: []}, acti
                 isFetching: true,
                 todos: action.todos
             };
-        
+
         case types.START_FETCHING:
             return {
                 isFetching: true,
+            };
+
+        case types.ADD_TODO:
+        console.log('DONE', action.todo);
+            return {
+                ...state,
+                todos: action.todo.title
             };
 
         default:
