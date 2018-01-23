@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   loadTodos,
+  storeNewTodo,
   selectorGetTodo,
   selectorIsFetching,
-  storeNewTodo
+  selectorFailedLoad
 } from './actions/todoActions';
 
 import './ShowTodos.css';
@@ -20,27 +21,43 @@ class ShowTodos extends React.Component {
   }
 
   static propTypes = {
-    isFetched: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    loadTodos: PropTypes.func
   }
 
   render() {
     const {
       todos,
-      isFetching
+      isLoading,
+      hasLoaded
     } = this.props;
-    if(!isFetching) {
-      return <p>Loading...</p>
-    } else if (isFetching) {
-      const resultStringify = JSON.stringify(Object.entries(todos.todos));
-      const preparedTodos = JSON.parse(resultStringify).map(([key, value]) => {
-        return [value.doc.title, value.id]
-      });
-      const placeholder = 'add a todo';
 
+    const resultStringify = JSON.stringify(Object.entries(todos.todos));
+    const preparedTodos = JSON.parse(resultStringify)
+                              .map(([key, value]) => {
+                                  return [value.doc.title, value.id]
+                              });
+    const placeholder = 'add a todo';
+
+    if(isLoading) {
       return (
         <div>
-          <h1>Todos</h1>
+          <h1>Todo's List</h1>
+            <p>Loading...</p>
+        </div>
+      )
+    } else if (!isLoading && !hasLoaded) {
+      return (
+        <div>
+          <h1>Todo's List</h1>
+          <p>The server can't answer, check if it is running</p>
+          <h6>net::ERR_CONNECTION_REFUSED</h6>
+        </div>
+      )
+    } else if (!isLoading) {
+      return (
+        <div>
+          <h1>Todo's List</h1>
           <ul>
              {preparedTodos.map(([todo, id]) => {
               return (
@@ -80,7 +97,8 @@ class ShowTodos extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
       todos: selectorGetTodo(state),
-      isFetching: selectorIsFetching(state)
+      isLoading: selectorIsFetching(state),
+      hasLoaded: selectorFailedLoad(state)
   };
 }
 
