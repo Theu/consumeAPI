@@ -14,13 +14,32 @@ export function todoSearch() {
 export function loadTodoSuccess(todos) {
     return {
         type: types.LOAD_TODOS_SUCCESS,
-        todos: Object.entries(todos.data.rows)
+        todos: todos.data.rows
+    }
+}
+
+//::action creator for ADD_TODO
+
+export function addTodo(todo) {
+    return {
+        type: types.ADD_TODO,
+        todo
+    }
+}
+export function storeNewTodo(todo) {
+    return function(dispatch) {
+        const url = '/todos';
+        return baseURL.post(url, todo).then((newTodo) => {
+            console.log('one problem at time', todo);
+            dispatch(addTodo(todo))
+            }
+        ).catch((error) => {console.log(error)})
     }
 }
 
 // perform the fetching
 //::: THIS IS AN ACTION
-export function loadTodos() { 
+export function loadTodos() {
     return function(dispatch) {
         const url = '/todos';
         return baseURL.get(url).then((todos) => {
