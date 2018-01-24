@@ -1,17 +1,18 @@
 import * as types from '../actions/actionTypes';
 
-export default function todoReducer(state = {isLoading: false, hasLoaded:false, todos: []}, action) {
+export default function todoReducer(state = {isLoading: false, canLoad:true, todos: []}, action) {
     switch (action.type) {
         case types.LOAD_TODOS_START:
             return {
                 ...state,
+                canLoad: true,
                 isLoading: true,
             };
 
         case types.LOAD_TODOS_SUCCESS:
             return {
                 ...state,
-                hasLoaded: true,
+                isLoading: false,
                 todos: action.todos
             };
 
@@ -19,13 +20,14 @@ export default function todoReducer(state = {isLoading: false, hasLoaded:false, 
             return {
                 ...state,
                 isLoading: false,
-                hasLoaded: false
+                canLoad: false
             }
 
         case types.ADD_TODO:
             return {
                 ...state,
-                todos: action.todo
+                isLoading: false,
+                todos: [...state.todos, action.todo ]
             };
 
         default:

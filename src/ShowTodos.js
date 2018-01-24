@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   loadTodos,
+  startLoad,
   storeNewTodo,
   selectorGetTodo,
   selectorIsFetching,
@@ -25,19 +26,20 @@ class ShowTodos extends React.Component {
     loadTodos: PropTypes.func
   }
 
+  componentWillMount() {
+    this.props.startLoad();
+    this.props.loadTodos();
+  }
+
+
   render() {
     const {
       todos,
       isLoading,
-      hasLoaded
+      canLoad
     } = this.props;
-
-    const resultStringify = JSON.stringify(Object.entries(todos.todos));
-    const preparedTodos = JSON.parse(resultStringify)
-                              .map(([key, value]) => {
-                                  return [value.doc.title, value.id]
-                              });
     const placeholder = 'add a todo';
+    // const todoList = (todos.todos).map(([value]) => {return value})
 
     if(isLoading) {
       return (
@@ -46,7 +48,7 @@ class ShowTodos extends React.Component {
             <p>Loading...</p>
         </div>
       )
-    } else if (!isLoading && !hasLoaded) {
+    } else if (!canLoad) {
       return (
         <div>
           <h1>Todo's List</h1>
@@ -55,15 +57,19 @@ class ShowTodos extends React.Component {
         </div>
       )
     } else if (!isLoading) {
+      console.log('sopra', todos.todos);
+      console.log('qui', (todos.todos).map((value) => value.title));
       return (
         <div>
           <h1>Todo's List</h1>
           <ul>
-             {preparedTodos.map(([todo, id]) => {
+            {(todos.todos).map((key, value, id) => {
               return (
-                <li key={id}>
-                  {todo}
-                </li>
+                <div key={value}>
+                  <li>
+                    {key.title}
+                  </li>
+                </div>
               )
             })}
           </ul>
@@ -74,7 +80,6 @@ class ShowTodos extends React.Component {
           <input
             type='submit'
             value='add todo'
-            placeholder={placeholder}
             onClick={this.onClick} />
         </div>
       )
@@ -98,11 +103,12 @@ function mapStateToProps(state, ownProps) {
   return {
       todos: selectorGetTodo(state),
       isLoading: selectorIsFetching(state),
-      hasLoaded: selectorFailedLoad(state)
+      canLoad: selectorFailedLoad(state)
   };
 }
 
 const mapDispatchToProps = {
+      startLoad,
       loadTodos,
       storeNewTodo
   }
