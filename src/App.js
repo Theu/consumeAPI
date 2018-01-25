@@ -2,18 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
-  loadTodos,
-  startLoad,
-  storeNewTodo,
-  todoRemove,
-  selectorGetTodo,
-  selectorIsFetching,
-  selectorFailedLoad
+  getTodo,
+  getFetchTodos,
+  getFailedLoad
+} from './actions/selectors';
+
+import {
+  todosLoad,
+  todoLoadStart,
+  todoAdd,
+  todoRemove
 } from './actions/todoActions';
 
-import './ShowTodos.css';
+import './App.css';
 
-class ShowTodos extends React.Component {
+class App extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -24,12 +27,12 @@ class ShowTodos extends React.Component {
 
   static propTypes = {
     addTodo: PropTypes.func,
-    loadTodos: PropTypes.func
+    todosLoad: PropTypes.func
   }
 
   componentWillMount() {
-    this.props.startLoad();
-    this.props.loadTodos();
+    this.props.todoLoadStart();
+    this.props.todosLoad();
   }
 
 
@@ -100,7 +103,7 @@ class ShowTodos extends React.Component {
 
   addTodo = () => {
     const title = this.state.title;
-    this.props.storeNewTodo({title})
+    this.props.todoAdd({title})
   }
 
   deleteTodo = (todoId) => {
@@ -111,19 +114,19 @@ class ShowTodos extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-      todos: selectorGetTodo(state),
-      isLoading: selectorIsFetching(state),
-      canLoad: selectorFailedLoad(state)
+      todos: getTodo(state),
+      isLoading: getFetchTodos(state),
+      canLoad: getFailedLoad(state)
   };
 }
 
 const mapDispatchToProps = {
-      startLoad,
-      loadTodos,
-      storeNewTodo,
+      todoLoadStart,
+      todosLoad,
+      todoAdd,
       todoRemove
   }
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowTodos);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

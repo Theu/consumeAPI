@@ -5,15 +5,15 @@ export default function todoReducer(state = {isLoading: false, canLoad:true, tod
         case types.LOAD_TODOS_START:
             return {
                 ...state,
-                canLoad: true,
-                isLoading: true
+                isLoading: true,
+                canLoad: true
             };
 
         case types.LOAD_TODOS_SUCCESS:
             return {
                 ...state,
-                todos: action.todos.data,
-                isLoading: false
+                isLoading: false,
+                todos: action.todos.data
             };
 
         case types.LOAD_TODOS_ERROR:

@@ -4,7 +4,7 @@ import configureStore from './store/configureStore';
 import { Provider } from 'react-redux';
 
 import './index.css';
-import ShowTodos from './ShowTodos';
+import App from './App';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -13,6 +13,6 @@ const store = configureStore();
 
 render(
         <Provider store={store}>
-                <ShowTodos />
+                <App />
         </Provider>, document.getElementById('root'));
 registerServiceWorker();
