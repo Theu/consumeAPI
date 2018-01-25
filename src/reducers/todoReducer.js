@@ -6,14 +6,14 @@ export default function todoReducer(state = {isLoading: false, canLoad:true, tod
             return {
                 ...state,
                 canLoad: true,
-                isLoading: true,
+                isLoading: true
             };
 
         case types.LOAD_TODOS_SUCCESS:
             return {
                 ...state,
-                isLoading: false,
-                todos: action.todos
+                todos: action.todos.data,
+                isLoading: false
             };
 
         case types.LOAD_TODOS_ERROR:
@@ -29,6 +29,14 @@ export default function todoReducer(state = {isLoading: false, canLoad:true, tod
                 isLoading: false,
                 todos: [...state.todos, action.todo ]
             };
+
+        case types.DELETE_TODO:
+        console.log('qui', state.todos);
+            return {
+                ...state,
+                isLoading: false,
+                todos: [ ...state.todos, state.todos.splice(-1, 1)]
+            }
 
         default:
             return state;

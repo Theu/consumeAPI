@@ -5,6 +5,7 @@ import {
   loadTodos,
   startLoad,
   storeNewTodo,
+  todoRemove,
   selectorGetTodo,
   selectorIsFetching,
   selectorFailedLoad
@@ -22,7 +23,7 @@ class ShowTodos extends React.Component {
   }
 
   static propTypes = {
-    onClick: PropTypes.func,
+    addTodo: PropTypes.func,
     loadTodos: PropTypes.func
   }
 
@@ -39,7 +40,7 @@ class ShowTodos extends React.Component {
       canLoad
     } = this.props;
     const placeholder = 'add a todo';
-    // const todoList = (todos.todos).map(([value]) => {return value})
+
 
     if(isLoading) {
       return (
@@ -57,18 +58,23 @@ class ShowTodos extends React.Component {
         </div>
       )
     } else if (!isLoading) {
-      console.log('sopra', todos.todos);
-      console.log('qui', (todos.todos).map((value) => value.title));
+      console.log('client', todos.todos);
       return (
         <div>
           <h1>Todo's List</h1>
           <ul>
-            {(todos.todos).map((key, value, id) => {
+            commento
+            {todos.todos.map((key, value, id) => {
               return (
-                <div key={value}>
+                <div
+                  key={value}>
                   <li>
                     {key.title}
                   </li>
+                  <input
+                    type='submit'
+                    value='delete todo'
+                    onClick={() => this.deleteTodo(key.id)} />
                 </div>
               )
             })}
@@ -80,7 +86,7 @@ class ShowTodos extends React.Component {
           <input
             type='submit'
             value='add todo'
-            onClick={this.onClick} />
+            onClick={this.addTodo} />
         </div>
       )
     }
@@ -92,9 +98,13 @@ class ShowTodos extends React.Component {
     this.setState({title}) // rem {title:title} --> remeber reference of an object, here you have the string
   }
 
-  onClick = () => {
+  addTodo = () => {
     const title = this.state.title;
     this.props.storeNewTodo({title})
+  }
+
+  deleteTodo = (todoId) => {
+    this.props.todoRemove(todoId);
   }
 }
 
@@ -110,7 +120,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
       startLoad,
       loadTodos,
-      storeNewTodo
+      storeNewTodo,
+      todoRemove
   }
 
 

@@ -1,5 +1,8 @@
 import * as types from './actionTypes';
-const baseURL = require('../tools/axiosBaseURL');
+import {
+    url,
+    baseURL
+} from '../tools/axiosBaseURL'
 
 export function loadTodoStart() {
     return {
@@ -15,9 +18,10 @@ export function startLoad() {
 //reducer to indicate we received ALL DATA
 //::: THIS IS AN ACTION CREATOR
 export function loadTodoSuccess(todos) {
+    console.log('loader', todos.data);
     return {
         type: types.LOAD_TODOS_SUCCESS,
-        todos: todos.data
+        todos: todos
     }
 }
 
@@ -31,7 +35,6 @@ export function loadTodoFailed() {
 //::: THIS IS AN ACTION
 export function loadTodos() {
     return function(dispatch) {
-        const url = '/todos';
         return baseURL.get(url)
             .then((todos) => {
                 dispatch(loadTodoSuccess(todos))
@@ -53,13 +56,14 @@ export function addTodo(todo) {
 }
 export function storeNewTodo(todo) {
     return function(dispatch) {
-        const url = '/todos';
-        console.log(todo);
         return baseURL.post(url, todo)
             .then(() => {
                 dispatch(addTodo(todo))
                 }
             )
+            .then(() => {
+                dispatch(loadTodoStart())
+            })
             .then((todos) => {
                 dispatch(loadTodoSuccess(todos))
                 }
@@ -67,8 +71,29 @@ export function storeNewTodo(todo) {
             .catch((error) => {console.log(error)})
     }
 }
-
-
+export function removeTodo(todo) {
+    return {
+        type: types.DELETE_TODO
+    }
+}
+export function todoRemove(todoId) {
+    return function(dispatch) {
+        return baseURL.delete(`todos/${todoId}`)
+                .then(() => {
+                    dispatch(removeTodo(todoId))
+                })
+                .then(() => {
+                    dispatch(loadTodoStart())
+                })
+                .then((todos) => {
+                    dispatch(loadTodoSuccess(todos))
+                    }
+                )
+                .catch((error) => {
+                    console.log('DEL ERROR', error);
+                })
+    }
+}
 
 
 export const selectorGetTodo = state => state.todos
