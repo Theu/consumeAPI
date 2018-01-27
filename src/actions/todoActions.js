@@ -1,60 +1,69 @@
-import * as types from './actionTypes';
-const baseURL = require('../tools/axiosBaseURL');
+import {
+    loadTodoStart,
+    loadTodoSuccess,
+    loadTodoFailed,
+    addTodo,
+    removeTodo
+} from './actionsCreators';
 
-// reducer to indicate the API call started
-//::: THIS IS AN ACTION CREATOR
-export function todoSearch() {
-    return {
-        type: types.START_FETCHING
-    }
-}
+import {
+    url,
+    baseURL
+} from '../tools/axiosBaseURL'
 
-//reducer to indicate we received ALL DATA
-//::: THIS IS AN ACTION CREATOR
-export function loadTodoSuccess(todos) {
-    return {
-        type: types.LOAD_TODOS_SUCCESS,
-        todos: todos.data.rows
-    }
-}
-
-//::action creator for ADD_TODO
-
-export function addTodo(todo) {
-    return {
-        type: types.ADD_TODO,
-        todo
-    }
-}
-export function storeNewTodo(todo) {
+export function todoLoadStart() {
     return function(dispatch) {
-        const url = '/todos';
-        return baseURL.post(url, todo).then((newTodo) => {
-            console.log('one problem at time', todo);
-            dispatch(addTodo(todo))
-            }
-        ).catch((error) => {console.log(error)})
+        dispatch(loadTodoStart())
     }
 }
 
-// perform the fetching
-//::: THIS IS AN ACTION
-export function loadTodos() {
+export function todosLoad() {
     return function(dispatch) {
-        const url = '/todos';
-        return baseURL.get(url).then((todos) => {
-            dispatch(loadTodoSuccess(todos))
-            }
-        ).catch((error) => {console.log(error)})
+        return baseURL.get(url)
+            .then((todos) => {
+                dispatch(loadTodoSuccess(todos))
+                }
+            )
+            .catch(error => {
+                dispatch(loadTodoFailed())
+            })
     }
 }
 
-
-
-export function selectorGetTodo(state) {
-    return state.todos;
+export function todoAdd(todo) {
+    return function(dispatch) {
+        return baseURL.post(url, todo)
+            .then(() => {
+                dispatch(addTodo(todo))
+                }
+            )
+            .then(() => {
+                dispatch(loadTodoStart())
+            })
+            .then((todos) => {
+                dispatch(loadTodoSuccess(todos))
+                }
+            )
+            .catch((error) => {console.log(error)})
+    }
 }
 
-export function selectorIsFetching(state) {
-    return state.isFetching;
+export function todoRemove(todoId) {
+    return function(dispatch) {
+        return baseURL.delete(`todos/${todoId}`)
+                .then(() => {
+                    dispatch(removeTodo(todoId))
+                })
+                .then(() => {
+                    dispatch(loadTodoStart())
+                })
+                .then((todos) => {
+                    dispatch(loadTodoSuccess(todos))
+                    }
+                )
+                .catch((error) => {
+                    console.log('DEL ERROR', error);
+                })
+    }
 }
+
