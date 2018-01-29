@@ -6,7 +6,6 @@ export function loadTodoStart() {
     }
 }
 export function loadTodoSuccess(todos) {
-    console.log('loader', todos.data);
     return {
         type: types.LOAD_TODOS_SUCCESS,
         todos: todos

@@ -30,7 +30,7 @@ class App extends React.Component {
     todosLoad: PropTypes.func
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.todoLoadStart();
     this.props.todosLoad();
   }
@@ -43,7 +43,6 @@ class App extends React.Component {
       canLoad
     } = this.props;
     const placeholder = 'add a todo';
-
 
     if(isLoading) {
       return (
@@ -61,12 +60,10 @@ class App extends React.Component {
         </div>
       )
     } else if (!isLoading) {
-      console.log('client', todos.todos);
       return (
         <div>
           <h1>Todo's List</h1>
           <ul>
-            commento
             {todos.todos.map((key, value, id) => {
               return (
                 <div
@@ -103,11 +100,13 @@ class App extends React.Component {
 
   addTodo = () => {
     const title = this.state.title;
-    this.props.todoAdd({title})
+    this.props.todoAdd({title});
   }
 
   deleteTodo = (todoId) => {
+    console.log('todoId', todoId);
     this.props.todoRemove(todoId);
+    this.props.todosLoad();
   }
 }
 

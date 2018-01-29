@@ -38,12 +38,15 @@ export function todoAdd(todo) {
                 }
             )
             .then(() => {
-                dispatch(loadTodoStart())
+                baseURL.get(url)
+                .then((todos) => {
+                    dispatch(loadTodoSuccess(todos))
+                    }
+                )
+                .catch(error => {
+                    dispatch(loadTodoFailed())
+                })
             })
-            .then((todos) => {
-                dispatch(loadTodoSuccess(todos))
-                }
-            )
             .catch((error) => {console.log(error)})
     }
 }
@@ -55,12 +58,15 @@ export function todoRemove(todoId) {
                     dispatch(removeTodo(todoId))
                 })
                 .then(() => {
-                    dispatch(loadTodoStart())
+                    baseURL.get(url)
+                    .then((todos) => {
+                        dispatch(loadTodoSuccess(todos))
+                        }
+                    )
+                    .catch(error => {
+                        dispatch(loadTodoFailed())
+                    })
                 })
-                .then((todos) => {
-                    dispatch(loadTodoSuccess(todos))
-                    }
-                )
                 .catch((error) => {
                     console.log('DEL ERROR', error);
                 })

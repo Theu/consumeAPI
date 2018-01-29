@@ -31,7 +31,6 @@ export default function todoReducer(state = {isLoading: false, canLoad:true, tod
             };
 
         case types.DELETE_TODO:
-        console.log('qui', state.todos);
             return {
                 ...state,
                 isLoading: false,
