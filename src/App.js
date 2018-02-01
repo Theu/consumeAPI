@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   getTodo,
@@ -14,26 +13,25 @@ import {
   todoRemove
 } from './actions/todoActions';
 
+import TodoList from './components/TodoList';
+import AdderField from './components/AdderField';
+
 import './App.css';
 
 class App extends React.Component {
   constructor(props, context) {
     super(props, context);
-
     this.state = {
-      title: ''
+      title: '',
+      todos: []
     }
   }
 
-  static propTypes = {
-    addTodo: PropTypes.func,
-    todosLoad: PropTypes.func
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     this.props.todoLoadStart();
     this.props.todosLoad();
   }
+
 
 
   render() {
@@ -64,29 +62,16 @@ class App extends React.Component {
         <div>
           <h1>Todo's List</h1>
           <ul>
-            {todos.todos.map((key, value, id) => {
-              return (
-                <div
-                  key={value}>
-                  <li>
-                    {key.title}
-                  </li>
-                  <input
-                    type='submit'
-                    value='delete todo'
-                    onClick={() => this.deleteTodo(key.id)} />
-                </div>
-              )
-            })}
+            <TodoList
+              arrayToMap={todos.todos}
+              todoRemove={() => this.deleteTodo}
+              valueButton={'delete to do'} />
           </ul>
-          <input
-            type='text'
+          <AdderField
             placeholder={placeholder}
-            onChange={this.onTitleChange} />
-          <input
-            type='submit'
-            value='add todo'
-            onClick={this.addTodo} />
+            onTitleChange={this.onTitleChange}
+            addTodo={this.addTodo}
+            ref={todoField => this.todoField = todoField} />
         </div>
       )
     }
@@ -94,19 +79,22 @@ class App extends React.Component {
   }
 
   onTitleChange = (event) => {
+    event.preventDefault();
     const title = event.target.value;
     this.setState({title}) // rem {title:title} --> remeber reference of an object, here you have the string
+
   }
 
   addTodo = () => {
     const title = this.state.title;
-    this.props.todoAdd({title});
+    if (title.length > 0) {
+      this.props.todoAdd({title});
+    }
+    this.todoField.clear();
   }
 
-  deleteTodo = (todoId) => {
-    console.log('todoId', todoId);
-    this.props.todoRemove(todoId);
-    this.props.todosLoad();
+  deleteTodo = (event) => {
+    this.props.todoRemove(event.target.id);
   }
 }
 
