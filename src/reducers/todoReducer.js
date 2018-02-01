@@ -33,8 +33,7 @@ export default function todoReducer(state = {isLoading: false, canLoad:true, tod
         case types.DELETE_TODO:
             return {
                 ...state,
-                isLoading: false,
-                todos: [ ...state.todos, state.todos.splice(-1, 1)]
+                isLoading: false
             }
 
         default:
