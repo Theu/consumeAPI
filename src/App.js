@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-  getTodo,
   getFetchTodos,
   getFailedLoad
 } from './actions/selectors';
@@ -16,14 +15,11 @@ import {
 import TodoList from './components/TodoList';
 import AdderField from './components/AdderField';
 
-import './App.css';
-
 class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      title: '',
-      todos: []
+      title: ''
     }
   }
 
@@ -32,14 +28,12 @@ class App extends React.Component {
     this.props.todosLoad();
   }
 
-
-
   render() {
     const {
-      todos,
       isLoading,
       canLoad
     } = this.props;
+
     const placeholder = 'add a todo';
 
     if(isLoading) {
@@ -61,12 +55,9 @@ class App extends React.Component {
       return (
         <div>
           <h1>Todo's List</h1>
-          <ul>
-            <TodoList
-              arrayToMap={todos.todos}
-              todoRemove={() => this.deleteTodo}
-              valueButton={'delete to do'} />
-          </ul>
+          <TodoList
+            todoRemove={() => this.deleteTodo}
+            valueButton={'delete to do'} />
           <AdderField
             placeholder={placeholder}
             onTitleChange={this.onTitleChange}
@@ -74,6 +65,8 @@ class App extends React.Component {
             ref={todoField => this.todoField = todoField} />
         </div>
       )
+    } else {
+      return null;
     }
 
   }
@@ -101,9 +94,8 @@ class App extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-      todos: getTodo(state),
       isLoading: getFetchTodos(state),
-      canLoad: getFailedLoad(state)
+      canLoad: getFailedLoad(state),
   };
 }
 

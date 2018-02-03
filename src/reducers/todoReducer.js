@@ -26,8 +26,7 @@ export default function todoReducer(state = {isLoading: false, canLoad:true, tod
         case types.ADD_TODO:
             return {
                 ...state,
-                isLoading: false,
-                todos: [...state.todos, action.todo ]
+                isLoading: false
             };
 
         case types.DELETE_TODO:
