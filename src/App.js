@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-  getFetchTodos,
-  getFailedLoad
+  getFetchTodos
 } from './actions/selectors';
 
 import {
@@ -29,10 +28,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {
-      isLoading,
-      canLoad
-    } = this.props;
+    const {isLoading} = this.props;
 
     const placeholder = 'add a todo';
 
@@ -41,14 +37,6 @@ class App extends React.Component {
         <div>
           <h1>Todo's List</h1>
             <p>Loading...</p>
-        </div>
-      )
-    } else if (!canLoad) {
-      return (
-        <div>
-          <h1>Todo's List</h1>
-          <p>The server can't answer, check if it is running</p>
-          <h6>net::ERR_CONNECTION_REFUSED</h6>
         </div>
       )
     } else if (!isLoading) {
@@ -87,15 +75,15 @@ class App extends React.Component {
   }
 
   deleteTodo = (event) => {
-    this.props.todoRemove(event.target.id);
+    const id = event.target.id
+    this.props.todoRemove({id});
   }
 }
 
 
 function mapStateToProps(state, ownProps) {
   return {
-      isLoading: getFetchTodos(state),
-      canLoad: getFailedLoad(state),
+      isLoading: getFetchTodos(state)
   };
 }
 

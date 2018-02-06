@@ -18,12 +18,14 @@ export function loadTodoFailed() {
     }
 }
 export function addTodo(todo) {
+    console.log('01');
     return {
         type: types.ADD_TODO,
         todo
     }
 }
-export function removeTodo(todo) {
+export function removeTodo(todos) {
+    console.log("remove", todos);
     return {
         type: types.DELETE_TODO
     }
