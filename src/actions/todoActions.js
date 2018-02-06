@@ -32,11 +32,8 @@ export function todosLoad() {
 
 export function todoAdd(todo) {
     return function(dispatch) {
+        dispatch(addTodo(todo))
         return baseURL.post(url, todo)
-            .then(() => {
-                dispatch(addTodo(todo))
-                }
-            )
             .then(() => {
                 baseURL.get(url)
                 .then((todos) => {
@@ -52,11 +49,12 @@ export function todoAdd(todo) {
 }
 
 export function todoRemove(todoId) {
+    console.log('todoId', todoId);
     return function(dispatch) {
-        return baseURL.delete(`todos/${todoId}`)
-                .then(() => {
-                    dispatch(removeTodo(todoId))
-                })
+        return baseURL.delete(`todos/${todoId.id}`)
+                // .then(() => {
+                //     dispatch(removeTodo(todoId))
+                // })
                 .then(() => {
                     baseURL.get(url)
                     .then((todos) => {

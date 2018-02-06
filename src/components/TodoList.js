@@ -26,15 +26,19 @@ class TodoList extends React.Component {
             valueButton,
             todos
          } = this.props;
-        if(todos.todos.rows !== undefined){
-
+         console.log(todos.todos);
+        if(todos.todos !== undefined){
+            console.log("qui");
             return (
                 <ul className="todoList-wrapper">
-                    {todos.todos.rows.map((key, value, id) => {
+                    {todos.todos.map((key, value, id) => {
+                        console.log("key", key);
+                        console.log('value', value);
+                        console.log('id', id);
                         return (
                             <Todo
                                 key={value}
-                                title={key.doc.title}
+                                title={key.title}
                                 id={key.id}
                                 valueButton={valueButton}
                                 todoRemove={todoRemove(key.id)} />
