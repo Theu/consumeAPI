@@ -2,7 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {getTodos} from '../redux/actions/selectors';
+import {
+    getTodos, 
+    getFailedLoad
+} from '../redux/actions/selectors';
 
 import Todo from './Todo';
 
@@ -24,8 +27,12 @@ class TodoList extends React.Component {
         const {
             todoRemove,
             valueButton,
-            todos
+            todos,
+            responseFromServer
          } = this.props;
+         const loadingAddedTodo = (responseFromServer === '201')
+         const addedTitle = (responseFromServer === '201') ? 'added' : null;
+         console.log('TODO RESPONSE', responseFromServer)
          return (
             <ul className="todoList-wrapper">
                 {todos.map((key, value, id) => {
@@ -45,7 +52,8 @@ class TodoList extends React.Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        todos: getTodos(state)
+        todos: getTodos(state),
+        responseFromServer: getFailedLoad(state)
     }
 }
 

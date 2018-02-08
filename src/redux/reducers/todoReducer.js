@@ -2,6 +2,7 @@ import {
     LOAD_TODOS_SUCCESS,
     LOAD_TODOS_ERROR,
     ADD_TODO,
+    ADD_TODO_SUCCESS,
     DELETE_TODO
 } from '../actions/actionTypes';
 
@@ -27,9 +28,14 @@ export default function todoReducer(state = initialState, action) {
         case ADD_TODO:
             return {
                 ...state,
-                response: '201',
-                todos: state.todos.concat(action.todo.title),
-                title: action.todo.title
+                todos: state.todos.concat(action.todo.title)
+            }
+        case ADD_TODO_SUCCESS:
+        console.log('action', action);
+            return {
+                ...state,
+                isLoading: false,
+                todos: action.todos.data
             }
         default:
             return state

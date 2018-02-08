@@ -2,6 +2,7 @@ import {
     LOAD_TODOS_SUCCESS,
     LOAD_TODOS_ERROR,
     ADD_TODO,
+    ADD_TODO_SUCCESS,
     DELETE_TODO
 } from './actionTypes';
 
@@ -19,9 +20,17 @@ export function loadTodoError(response) {
     }
 }
 
-export function addTodo(todo) {
+export function addTodo(todo, todos) {
     return {
         type: ADD_TODO,
-        todo
+        todo,
+        todos
+    }
+}
+
+export function addTodoSuccess(todos) {
+    return {
+        type: ADD_TODO_SUCCESS,
+        todos
     }
 }

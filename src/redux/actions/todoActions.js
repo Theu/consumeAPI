@@ -3,7 +3,8 @@ import { BrowserRouter } from 'react-router-dom'
 import {
     loadTodoSuccess,
     loadTodoError,
-    addTodo
+    addTodo,
+    addTodoSuccess
 } from './actionsCreators';
 
 import {
@@ -15,6 +16,7 @@ const getFromServer = baseURL.get(url);
 const GENERIC_NETWORK_ERROR = 'GENERIC_NETWORK_ERROR';
 
 export function loadTodo() {
+    console.log('loadtodo');
     return async (dispatch) => {
         try {
             dispatch(loadTodoSuccess(await getFromServer))
@@ -27,18 +29,23 @@ export function loadTodo() {
     }
 }
 
-export function addedTodo(todo) {
-    return async (dispatch) => {
+export function addTodoToServer(todo, todos) {
+    return async (dispatch) => {      
         try {
-            const postTodo = await baseURL.post(url, todo)
-            if(postTodo.status === 201) {
-                dispatch(addTodo(todo))
-                dispatch(loadTodoSuccess(await getFromServer))
-            }
-
-            // dispatch(loadTodoSuccess(await getFromServer))
+            await baseURL.post(url, todo)
+            dispatch(addTodo(todo, todos))
         } catch(error) {
             console.log('ADD', error);
+        }
+    }
+}
+
+export function displayNewTodo(todos) {
+    return async (dispatch) => {
+        try {
+            dispatch(addTodoSuccess(await getFromServer))
+        } catch(error) {
+            console.log('UPDATE ERROR', error);
         }
     }
 }

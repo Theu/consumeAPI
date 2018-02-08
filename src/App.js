@@ -7,7 +7,8 @@ import {
 
 import {
   loadTodo,
-  addedTodo
+  addTodoToServer,
+  displayNewTodo
 } from './redux/actions/todoActions';
 
 import TodoList from './components/TodoList';
@@ -24,12 +25,12 @@ class App extends React.Component {
   componentWillMount() {
     this.props.loadTodo();
   }
-
+ 
   render() {
     const {
       isLoading,
       responseFromServer,
-      addedTodo
+      addTodoToServer
     } = this.props;
 
     const placeholder = 'add a todo';
@@ -80,7 +81,7 @@ class App extends React.Component {
   addTodo = () => {
     const title = this.state.title;
     if (title.length > 0) {
-      this.props.addedTodo({title});
+      this.props.addTodoToServer({title});
     }
     this.todoField.clear();
   }
@@ -101,7 +102,8 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
     loadTodo,
-    addedTodo
+    addTodoToServer,
+    displayNewTodo
   }
 
 
