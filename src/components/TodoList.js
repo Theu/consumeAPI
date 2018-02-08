@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {getTodo} from '../actions/selectors';
+import {getTodos} from '../redux/actions/selectors';
 
 import Todo from './Todo';
 
@@ -26,35 +26,26 @@ class TodoList extends React.Component {
             valueButton,
             todos
          } = this.props;
-         console.log(todos.todos);
-        if(todos.todos !== undefined){
-            console.log("qui");
-            return (
-                <ul className="todoList-wrapper">
-                    {todos.todos.map((key, value, id) => {
-                        console.log("key", key);
-                        console.log('value', value);
-                        console.log('id', id);
-                        return (
-                            <Todo
-                                key={value}
-                                title={key.title}
-                                id={key.id}
-                                valueButton={valueButton}
-                                todoRemove={todoRemove(key.id)} />
-                        )
-                    })}
-                </ul>
-            )
-        } else {
-            return null
-        }
+         return (
+            <ul className="todoList-wrapper">
+                {todos.map((key, value, id) => {
+                    return (
+                        <Todo
+                            key={value}
+                            title={key.title}
+                            id={key.id}
+                            valueButton={valueButton}
+                            todoRemove={todoRemove(key.id)} />
+                    )
+                })}
+            </ul>
+        )
     }
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-        todos: getTodo(state)
+        todos: getTodos(state)
     }
 }
 

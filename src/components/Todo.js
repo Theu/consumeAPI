@@ -1,6 +1,11 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-import './todo.css'
+import {
+    getFailedLoad
+} from '../redux/actions/selectors';
+
+import './todo.css';
 
 class Todo extends React.Component {
 
@@ -9,21 +14,44 @@ class Todo extends React.Component {
             todoRemove,
             valueButton,
             title,
-            id
+            id,
+            responseFromServer
          } = this.props;
-
+         const loadingAddedTodo = (responseFromServer === '201')
+         const addedTitle = (responseFromServer === '201') ? 'added' : null;
+         console.log('TODO RESPONSE', responseFromServer)
         return (
-            <li className='todo-wrapper'>
-                {title}
-                <input
-                    className='todo-button'
-                    type='submit'
-                    id={id}
-                    value={valueButton}
-                    onClick={todoRemove} />
-            </li>
+            <div>
+                {loadingAddedTodo &&
+                    <li className='todo-wrapper'>
+                    {addedTitle}
+                    <input
+                        className='todo-button'
+                        type='submit'
+                        id={id}
+                        value={valueButton}
+                        onClick={todoRemove} />
+                </li>
+                }
+                <li className='todo-wrapper'>
+                    {title}
+                    <input
+                        className='todo-button'
+                        type='submit'
+                        id={id}
+                        value={valueButton}
+                        onClick={todoRemove} />
+                </li>
+            </div>
         )
     }
 }
 
-export default Todo;
+function mapStateToProps(state, ownProps) {
+    console.log(state);
+    return {
+        responseFromServer: getFailedLoad(state)
+    }
+}
+
+export default connect(mapStateToProps)(Todo);

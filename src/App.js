@@ -1,15 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-  getFetchTodos
-} from './actions/selectors';
+  getFetchTodos,
+  getFailedLoad
+} from './redux/actions/selectors';
 
 import {
-  todosLoad,
-  todoLoadStart,
-  todoAdd,
-  todoRemove
-} from './actions/todoActions';
+  loadTodo,
+  addedTodo
+} from './redux/actions/todoActions';
 
 import TodoList from './components/TodoList';
 import AdderField from './components/AdderField';
@@ -23,14 +22,18 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.props.todoLoadStart();
-    this.props.todosLoad();
+    this.props.loadTodo();
   }
 
   render() {
-    const {isLoading} = this.props;
+    const {
+      isLoading,
+      responseFromServer,
+      addedTodo
+    } = this.props;
 
     const placeholder = 'add a todo';
+    const loadingNotPossible = (responseFromServer !== '200');
 
     if(isLoading) {
       return (
@@ -40,21 +43,29 @@ class App extends React.Component {
         </div>
       )
     } else if (!isLoading) {
+      console.log("responseFromServer", responseFromServer);
       return (
         <div>
           <h1>Todo's List</h1>
-          <TodoList
-            todoRemove={() => this.deleteTodo}
-            valueButton={'delete to do'} />
-          <AdderField
-            placeholder={placeholder}
-            onTitleChange={this.onTitleChange}
-            addTodo={this.addTodo}
-            ref={todoField => this.todoField = todoField} />
+          {!loadingNotPossible &&
+            <div>
+              <TodoList
+                todoRemove={() => this.deleteTodo}
+                valueButton={'delete to do'} />
+              <AdderField
+                placeholder={placeholder}
+                onTitleChange={this.onTitleChange}
+                addTodo={this.addTodo}
+                ref={todoField => this.todoField = todoField} />
+            </div>
+          }
+          {loadingNotPossible &&
+          <div>
+            I am sorry but you can't use this app because the server send a {responseFromServer} response.
+          </div>
+        }
         </div>
       )
-    } else {
-      return null;
     }
 
   }
@@ -69,29 +80,28 @@ class App extends React.Component {
   addTodo = () => {
     const title = this.state.title;
     if (title.length > 0) {
-      this.props.todoAdd({title});
+      this.props.addedTodo({title});
     }
     this.todoField.clear();
   }
 
   deleteTodo = (event) => {
     const id = event.target.id
-    this.props.todoRemove({id});
+    this.props.todoRemove(id);
   }
 }
 
 
 function mapStateToProps(state, ownProps) {
   return {
-      isLoading: getFetchTodos(state)
+      isLoading: getFetchTodos(state),
+      responseFromServer: getFailedLoad(state)
   };
 }
 
 const mapDispatchToProps = {
-      todoLoadStart,
-      todosLoad,
-      todoAdd,
-      todoRemove
+    loadTodo,
+    addedTodo
   }
 
 
