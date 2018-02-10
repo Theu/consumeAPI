@@ -2,13 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {
   getFetchTodos,
-  getFailedLoad
+  getFailedLoad,
+  getTodos
 } from './redux/actions/selectors';
 
 import {
   loadTodo,
-  addTodoToServer,
-  displayNewTodo
+  addTodoToServer
 } from './redux/actions/todoActions';
 
 import TodoList from './components/TodoList';
@@ -29,13 +29,11 @@ class App extends React.Component {
   render() {
     const {
       isLoading,
-      responseFromServer,
-      addTodoToServer
+      responseFromServer
     } = this.props;
 
     const placeholder = 'add a todo';
     const loadingNotPossible = (responseFromServer !== '200');
-
     if(isLoading) {
       return (
         <div>
@@ -44,7 +42,6 @@ class App extends React.Component {
         </div>
       )
     } else if (!isLoading) {
-      console.log("responseFromServer", responseFromServer);
       return (
         <div>
           <h1>Todo's List</h1>
@@ -96,14 +93,14 @@ class App extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
       isLoading: getFetchTodos(state),
-      responseFromServer: getFailedLoad(state)
+      responseFromServer: getFailedLoad(state), // change this name
+      todos: getTodos(state)
   };
 }
 
 const mapDispatchToProps = {
     loadTodo,
-    addTodoToServer,
-    displayNewTodo
+    addTodoToServer
   }
 
 
