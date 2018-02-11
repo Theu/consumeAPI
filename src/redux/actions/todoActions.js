@@ -28,13 +28,16 @@ export function loadTodo() {
 export function addTodoToServer(todo) {
     return async (dispatch, getState) => {      
         try {
-            dispatch(addTodo(todo))
             await baseURL.post(url, todo)
             if(getState().response === '200') {
+                dispatch(addTodo(todo))
                 dispatch(loadTodoSuccess(await baseURL.get(url)))
             }
         } catch(error) {
-            console.log('ADD', error);
+            (!error.response) ?
+                dispatch(loadTodoError(GENERIC_NETWORK_ERROR))
+            :
+                dispatch(loadTodoError(error.response.status))
         }
     }
 }

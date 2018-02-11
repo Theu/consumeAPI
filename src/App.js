@@ -77,7 +77,7 @@ class App extends React.Component {
 
   addTodo = () => {
     const title = this.state.title;
-    if (title.length > 0) {
+    if (title.length > 0) { //todo: add check for input validty
       this.props.addTodoToServer({title});
     }
     this.todoField.clear();

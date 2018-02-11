@@ -9,8 +9,7 @@ import {
 const initialState = {
     response: '200',
     isLoading: false,
-    todos:[],
-    title:''
+    todos:[]
 }
 
 export default function todoReducer(state = initialState, action) {
