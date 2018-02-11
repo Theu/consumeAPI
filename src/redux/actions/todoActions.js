@@ -1,6 +1,7 @@
 import {
     loadTodoSuccess,
-    loadTodoError
+    loadTodoError,
+    addTodo
 } from './actionsCreators';
 
 import {
@@ -27,9 +28,9 @@ export function loadTodo() {
 export function addTodoToServer(todo) {
     return async (dispatch, getState) => {      
         try {
+            dispatch(addTodo(todo))
             await baseURL.post(url, todo)
-            const answerFromServer = await getState().response
-            if(await answerFromServer === '200') {
+            if(getState().response === '200') {
                 dispatch(loadTodoSuccess(await baseURL.get(url)))
             }
         } catch(error) {

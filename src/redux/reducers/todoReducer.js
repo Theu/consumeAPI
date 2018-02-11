@@ -28,15 +28,15 @@ export default function todoReducer(state = initialState, action) {
         case ADD_TODO:
             return {
                 ...state,
-                todos: state.todos.concat(action.todo.title)
+                todos: state.todos.concat(action.todo)
             }
-        case ADD_TODO_SUCCESS:
-        console.log('action', action);
-            return {
-                ...state,
-                isLoading: false,
-                todos: action.todos.data
-            }
+        // case ADD_TODO_SUCCESS:
+        // console.log('action', action);
+        //     return {
+        //         ...state,
+        //         isLoading: false,
+        //         todos: action.todos.data
+        //     }
         default:
             return state
     }

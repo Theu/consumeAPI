@@ -20,17 +20,16 @@ export function loadTodoError(response) {
     }
 }
 
-export function addTodo(todo, todos) {
+export function addTodo(todo) {
     return {
         type: ADD_TODO,
-        todo,
-        todos
+        todo
     }
 }
 
-export function addTodoSuccess(todos) {
-    return {
-        type: ADD_TODO_SUCCESS,
-        todos
-    }
-}
+// export function addTodoSuccess(todos) {
+//     return {
+//         type: ADD_TODO_SUCCESS,
+//         todos
+//     }
+// }
