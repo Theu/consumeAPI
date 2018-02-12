@@ -1,7 +1,6 @@
 import {
     loadTodoSuccess,
-    loadTodoError,
-    addTodo
+    loadTodoError
 } from './actionsCreators';
 
 import {
@@ -12,7 +11,7 @@ import {
 const getFromServer = baseURL.get(url);
 const GENERIC_NETWORK_ERROR = 'GENERIC_NETWORK_ERROR';
 
-export function loadTodo() {
+export function todo_load() {
     return async (dispatch) => {
         try {
             dispatch(loadTodoSuccess(await getFromServer))
@@ -25,11 +24,11 @@ export function loadTodo() {
     }
 }
 
-export function addTodoToServer(todo) {
+export function todo_add_ToServer(todo) {
     return async (dispatch, getState) => {
         try {
             const postTodo = await baseURL.post(url, todo)
-            if(postTodo.status === '201') {
+            if(postTodo.statusText === 'Created') {
                 dispatch(loadTodoSuccess(await baseURL.get(url)))
             }
         } catch(error) {
