@@ -26,11 +26,10 @@ export function loadTodo() {
 }
 
 export function addTodoToServer(todo) {
-    return async (dispatch, getState) => {      
+    return async (dispatch, getState) => {
         try {
-            await baseURL.post(url, todo)
-            if(getState().response === '200') {
-                dispatch(addTodo(todo))
+            const postTodo = await baseURL.post(url, todo)
+            if(postTodo.status === '201') {
                 dispatch(loadTodoSuccess(await baseURL.get(url)))
             }
         } catch(error) {
