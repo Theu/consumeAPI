@@ -1,14 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {
-  getFetchTodos,
-  getFailedLoad,
-  getTodos
-} from './redux/actions/selectors';
 
+import {getServerResponse} from './redux/actions/selectors';
 import {
-  loadTodo,
-  addTodoToServer
+  todo_load,
+  todo_add_ToServer
 } from './redux/actions/todoActions';
 
 import TodoList from './components/TodoList';
@@ -23,62 +19,49 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.props.loadTodo();
+    this.props.todo_load();
   }
- 
+
   render() {
     const {
-      isLoading,
       responseFromServer
     } = this.props;
 
-    const placeholder = 'add a todo';
-    const loadingNotPossible = (responseFromServer !== '200');
-    if(isLoading) {
-      return (
+    const isLoadingPossible = (responseFromServer === '200');
+
+    return (
         <div>
           <h1>Todo's List</h1>
-            <p>Loading...</p>
-        </div>
-      )
-    } else if (!isLoading) {
-      return (
-        <div>
-          <h1>Todo's List</h1>
-          {!loadingNotPossible &&
+          {isLoadingPossible &&
             <div>
               <TodoList
                 todoRemove={() => this.deleteTodo}
                 valueButton={'delete to do'} />
               <AdderField
-                placeholder={placeholder}
+                placeholder={'add a todo'}
                 onTitleChange={this.onTitleChange}
                 addTodo={this.addTodo}
                 ref={todoField => this.todoField = todoField} />
             </div>
           }
-          {loadingNotPossible &&
+          {!isLoadingPossible &&
           <div>
             I am sorry but you can't use this app because the server send a {responseFromServer} response.
           </div>
-        }
+          }
         </div>
       )
     }
 
-  }
 
   onTitleChange = (event) => {
     event.preventDefault();
-    const title = event.target.value;
-    this.setState({title}) // rem {title:title} --> remeber reference of an object, here you have the string
-
+    this.setState({title:event.target.value}) // rem {title:title} --> remeber reference of an object, here you have the string
   }
 
   addTodo = () => {
-    const title = this.state.title;
-    if (title.length > 0) { //todo: add check for input validty
-      this.props.addTodoToServer({title});
+    if (this.state.title.length > 0) { //todo: add check for input validty
+      this.props.todo_add_ToServer({title:this.state.title});
     }
     this.todoField.clear();
   }
@@ -92,15 +75,13 @@ class App extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-      isLoading: getFetchTodos(state),
-      responseFromServer: getFailedLoad(state), // change this name
-      todos: getTodos(state)
+      responseFromServer: getServerResponse(state)
   };
 }
 
 const mapDispatchToProps = {
-    loadTodo,
-    addTodoToServer
+    todo_load,
+    todo_add_ToServer
   }
 
 
