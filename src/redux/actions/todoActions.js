@@ -46,14 +46,17 @@ export function todo_load_error(error) {
 }
 
 /// TODO_ADD
+
+const postTodo = (todoTitle) => baseURL.post('url', todoTitle)
+
 export function todo_add_start(todoTitle) {
     return async dispatch => {
         try {
-            dispatch(addTodoStart(todoTitle)) //more for personal learning. the real add_toServer is at next line
+            dispatch(addTodoStart(todoTitle))
             await postTodo(todoTitle)
             dispatch(todo_add_success(todoTitle))
         } catch (error) {
-            console.log("ADD TODO", error);
+            dispatch(todo_add_error(error))
         }
     }
 }
@@ -65,15 +68,12 @@ export function todo_add_error(error) {
 }
 
 
-const postTodo = (todoTitle) => baseURL.post(url, todoTitle)
+
 
 export function todo_add_success(todoTitle) {
     return async dispatch => {
         try {
-            // dispatch(addTodoStart(todoTitle)) //more for personal learning. the real add_toServer is at next line
-            // await postTodo(todoTitle)
             dispatch(addTodoSuccess(todoTitle))
-            // await postTodo(todoTitle)
             dispatch(todo_load())
         } catch(error) {
             dispatch(todo_add_error(error))

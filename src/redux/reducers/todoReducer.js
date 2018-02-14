@@ -11,11 +11,12 @@ import {
 } from '../actions/actionTypes';
 
 const initialState = {
-    errorMessage: '', // change response to error
+    isError: false,
+    errorMessage: '',
+    errorType: '',
     isLoading: false,
     todos:[],
     isPending: false,
-    errorType: ''
 }
 
 export default function todoReducer(state = initialState, action) {
@@ -55,8 +56,10 @@ export default function todoReducer(state = initialState, action) {
             console.log('ADD_TODO_ERROR', action);
             return {
                 ...state,
+                isError: true,
                 errorMessage: action.error.message,
-                errorType: action.type
+                errorType: action.type,
+                isPending: false
             }
 
         case DELETE_TODO:

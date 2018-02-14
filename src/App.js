@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
+  getError,
   getErrorMessage,
   getErrorType,
   getPending
@@ -25,6 +26,7 @@ import {
 import TodoList from './components/TodoList';
 import InputField from './components/InputField';
 import ErrorHandler from './components/ErrorHandler';
+import { isError } from 'util';
 
 class App extends React.Component {
   constructor(props) {
@@ -41,7 +43,8 @@ class App extends React.Component {
     const {
       errorMessage,
       errorType,
-      isPending
+      isPending,
+      isError
     } = this.props;
 
     const isLoadError = errorType === LOAD_TODOS_ERROR;
@@ -78,9 +81,13 @@ class App extends React.Component {
   addTodo = () => {
     if (this.state.title.length > 0) { //todo: add check for input validty
       this.props.todo_add_start({title:this.state.title});
+      if((this.props.isPending === false) && (this.props.isError === false)) {
+        console.log("ortica");
+        this.addTodoField.clear();
+      }
     }
-    console.log('isPending', this.props.isPending);
-    this.addTodoField.clear();
+    console.log("object", this.props.isError);
+
   }
 
   deleteTodo = (event) => {
@@ -90,7 +97,9 @@ class App extends React.Component {
 
 
 function mapStateToProps(state) {
+  console.log("STATE", state);
   return {
+      isError: getError(state),
       errorMessage: getErrorMessage(state),
       errorType: getErrorType(state),
       isPending: getPending(state)

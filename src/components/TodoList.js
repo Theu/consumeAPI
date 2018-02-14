@@ -42,16 +42,16 @@ class TodoList extends React.Component {
                 {todos.map((key, value, id) => {
                     const todoValue = ((todos.length - 1 === value) && errorType === ADD_TODO_ERROR ) ? addFailedMessage : key.title
 
-                    const hideDeleteButton = ((todos.length - 1 === value) && errorType === ADD_TODO_ERROR ) ? 'hide-button' : ''
                     return (
                         <Todo
                             key={value}
-                            title={todoValue}
+                            title={value}
                             id={key.id}
                             valueButton={valueButton}
                             todoRemove={todoRemove(key.id)}
                             // pendingStyle={pendingTodo}
-                            failingButtonStyle={hideDeleteButton} />
+                            // failingButtonStyle={hideDeleteButton}
+                             />
                     )
                 })}
 
