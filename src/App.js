@@ -20,7 +20,8 @@ import {
 } from './redux/actions/todoActions';
 
 import {
-  LOAD_TODOS_ERROR
+  LOAD_TODOS_ERROR,
+  ADD_TODO_ERROR
 } from './redux/actions/actionTypes'
 
 import TodoList from './components/TodoList';
@@ -49,7 +50,8 @@ class App extends React.Component {
 
     const isLoadError = errorType === LOAD_TODOS_ERROR;
     const todoPending = isPending
-
+    const displayError = (errorType === ADD_TODO_ERROR) ? 'we cannot add your todo' : 'we are processing your request'
+    console.log('errorType', errorType);
     return (
         <div>
           <h1>Todo's List</h1>
@@ -60,8 +62,13 @@ class App extends React.Component {
               <TodoList
                 todoRemove={() => this.deleteTodo}
                 valueButton={'delete to do'} />
+            {(errorType === ADD_TODO_ERROR) &&
+
+              <h1>we cannot add your todo</h1>
+
+            }
             {isPending ?
-              <h1>we are sending your todo to the server</h1>
+              <h1>we are processing your request</h1>
               :
               <InputField
                   placeholder={'add todo'}
@@ -69,6 +76,7 @@ class App extends React.Component {
                   handleClick={this.addTodo}
                   ref={addTodoField => this.addTodoField = addTodoField} />
             }
+
             </div>
       );
     }
