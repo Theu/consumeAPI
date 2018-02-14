@@ -1,18 +1,34 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {getServerResponse} from './redux/actions/selectors';
 import {
+  getErrorMessage,
+  getErrorType,
+  getPending
+} from './redux/actions/selectors';
+
+import {
+  todo_load_start,
   todo_load,
-  todo_add_ToServer
+  todo_load_error,
+
+  todo_add,
+  todo_add_start,
+
+  todo_delete
 } from './redux/actions/todoActions';
 
+import {
+  LOAD_TODOS_ERROR
+} from './redux/actions/actionTypes'
+
 import TodoList from './components/TodoList';
-import AdderField from './components/AdderField';
+import InputField from './components/InputField';
+import ErrorHandler from './components/ErrorHandler';
 
 class App extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
       title: ''
     }
@@ -21,67 +37,72 @@ class App extends React.Component {
   componentWillMount() {
     this.props.todo_load();
   }
-
   render() {
     const {
-      responseFromServer
+      errorMessage,
+      errorType,
+      isPending
     } = this.props;
 
-    const isLoadingPossible = (responseFromServer === '200');
+    const isLoadError = errorType === LOAD_TODOS_ERROR;
+    const todoPending = isPending
 
     return (
         <div>
           <h1>Todo's List</h1>
-          {isLoadingPossible &&
-            <div>
+            {isLoadError &&
+              <ErrorHandler
+                faillureReason={errorMessage} />
+            }
               <TodoList
                 todoRemove={() => this.deleteTodo}
                 valueButton={'delete to do'} />
-              <AdderField
-                placeholder={'add a todo'}
-                onTitleChange={this.onTitleChange}
-                addTodo={this.addTodo}
-                ref={todoField => this.todoField = todoField} />
+            {isPending ?
+              <h1>we are sending your todo to the server</h1>
+              :
+              <InputField
+                  placeholder={'add todo'}
+                  onTitleChange={this.onTitleChange}
+                  handleClick={this.addTodo}
+                  ref={addTodoField => this.addTodoField = addTodoField} />
+            }
             </div>
-          }
-          {!isLoadingPossible &&
-          <div>
-            I am sorry but you can't use this app because the server send a {responseFromServer} response.
-          </div>
-          }
-        </div>
-      )
+      );
     }
 
 
   onTitleChange = (event) => {
-    event.preventDefault();
-    this.setState({title:event.target.value}) // rem {title:title} --> remeber reference of an object, here you have the string
+    this.setState({title:event.target.value})
   }
 
   addTodo = () => {
     if (this.state.title.length > 0) { //todo: add check for input validty
-      this.props.todo_add_ToServer({title:this.state.title});
+      this.props.todo_add_start({title:this.state.title});
     }
-    this.todoField.clear();
+    console.log('isPending', this.props.isPending);
+    this.addTodoField.clear();
   }
 
   deleteTodo = (event) => {
-    const id = event.target.id
-    this.props.todoRemove(id);
+    this.props.todo_delete(event.target.id);
   }
 }
 
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-      responseFromServer: getServerResponse(state)
+      errorMessage: getErrorMessage(state),
+      errorType: getErrorType(state),
+      isPending: getPending(state)
   };
 }
 
 const mapDispatchToProps = {
+    todo_load_start,
     todo_load,
-    todo_add_ToServer
+    todo_load_error,
+    todo_add_start,
+    todo_delete
   }
 
 

@@ -1,0 +1,17 @@
+.errorHandler-wrapper {
+    border: 1px solid black;
+    height: auto;
+    position: absolute;
+    background-color: white;
+}
+
+.toggle-alert {
+    text-align: center;
+    margin-top: 15px;
+    border-top: 1px solid black;
+    padding: 10px 0;
+}
+
+.hide {
+    display: none;
+}

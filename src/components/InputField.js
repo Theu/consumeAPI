@@ -6,14 +6,14 @@ class AdderField extends React.Component {
     static propTypes = {
         placeholder: PropTypes.string,
         onTitleChange: PropTypes.func,
-        addTodo: PropTypes.func
+        handleClick: PropTypes.func
     }
 
     render() {
         const {
             placeholder,
             onTitleChange,
-            addTodo
+            handleClick
         } = this.props
 
         return (
@@ -25,8 +25,8 @@ class AdderField extends React.Component {
                     onChange={onTitleChange} />
                 <input
                     type='submit'
-                    value='add todo'
-                    onClick={addTodo} />
+                    value={placeholder}
+                    onClick={handleClick} />
             </div>
         );
     }
