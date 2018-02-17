@@ -10,15 +10,17 @@ class Todo extends React.Component {
             todoRemove,
             valueButton,
             title,
-            id
+            id,
+            pendingStyle,
+            failingButtonStyle
          } = this.props;
-      
+
         return (
             <div>
-                <li className='todo-wrapper'>
+                <li className={`todo-wrapper ${pendingStyle}`}>
                     {title}
                     <input
-                        className='todo-button'
+                        className={`todo-button ${failingButtonStyle}`}
                         type='submit'
                         id={id}
                         value={valueButton}
