@@ -26,6 +26,7 @@ import {
 
 import TodoList from './components/TodoList';
 import InputField from './components/InputField';
+import AnimatedMessage from './components/AnimatedMessage';
 import ErrorHandler from './components/ErrorHandler';
 import { isError } from 'util';
 
@@ -68,7 +69,9 @@ class App extends React.Component {
 
             }
             {isPending ?
-              <h1>we are processing your request</h1>
+              <AnimatedMessage
+                message={'Salvamento'}
+              />
               :
               <InputField
                   placeholder={'add todo'}

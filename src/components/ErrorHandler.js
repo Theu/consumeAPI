@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './ErrorHandler.css'
+import './errorHandler.css'
 
 class ErrorHandler extends React.Component {
     render() {
