@@ -9,11 +9,11 @@ import {
 } from './redux/actions/selectors';
 
 import {
-  todo_load_start,
+  // todo_load_start,
   todo_load,
-  todo_load_error,
+  // todo_load_error,
 
-  todo_add,
+  todo_add_start,
 
   todo_delete
 } from './redux/actions/todoActions';
@@ -75,7 +75,7 @@ class App extends React.Component {
                   onTitleChange={this.listenInputFieldChange}
                   handleClick={this.createTodo}
                   ref={addTodoField => this.addTodoField = addTodoField}
-                   />
+              />
             }
 
             </div>
@@ -95,7 +95,7 @@ class App extends React.Component {
   
   createTodo = async () => {
     if (this.state.title.length > 0) { //todo: add check for input validty
-      await this.props.todo_add({title:this.state.title});
+      await this.props.todo_add_start({title:this.state.title});
       this.keepInputFieldValue(); 
     }
   }
@@ -116,10 +116,10 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    todo_load_start,
+    // todo_load_start,
     todo_load,
-    todo_load_error,
-    todo_add,
+    // todo_load_error,
+    todo_add_start,
     todo_delete
   }
 

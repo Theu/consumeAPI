@@ -7,7 +7,7 @@ import {
     addTodoSuccess,
     addTodoError,
 
-    deleteTodo
+    deleteTodoStart
 } from './actionsCreators';
 
 import {consumeApi} from '../../tools/axiosBaseURL'
@@ -66,11 +66,11 @@ export function todo_add_start(todoTitle) {
     }
 }
 
-export function todo_add(todoTitle) {
-    return async dispatch => {
-        dispatch(todo_add_start(todoTitle))
-    }
-}
+// export function todo_add(todoTitle) {
+//     return async dispatch => {
+//         dispatch(todo_add_start(todoTitle))
+//     }
+// }
 
 export function todo_add_error(error) {
     return async dispatch => {
@@ -97,7 +97,7 @@ export function todo_add_success(todoTitle) {
 export function todo_delete(todoId) {
     return async dispatch => {
         try {
-            dispatch(deleteTodo(todoId))
+            dispatch(deleteTodoStart(todoId))
             await removeTodo(todoId)
             dispatch(loadTodoSuccess(await axiosInstance.get(url)))
         } catch(error) {

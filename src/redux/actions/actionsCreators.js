@@ -7,7 +7,9 @@ import {
     ADD_TODO_SUCCESS,
     ADD_TODO_ERROR,
 
-    DELETE_TODO
+    DELETE_TODO_START,
+    DELETE_TODO_SUCCESS,
+    DELETE_TODO_ERROR
 } from './actionTypes';
 
 export function loadTodoStart() {
@@ -51,9 +53,9 @@ export function addTodoError(error) {
     }
 }
 
-export function deleteTodo(todos) {
+export function deleteTodoStart(todos) {
     return {
-        type: DELETE_TODO,
+        type: DELETE_TODO_START,
         todos
     }
 }

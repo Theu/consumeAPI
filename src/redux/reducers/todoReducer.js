@@ -7,7 +7,7 @@ import {
     ADD_TODO_SUCCESS,
     ADD_TODO_ERROR,
 
-    DELETE_TODO
+    DELETE_TODO_START
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -37,7 +37,8 @@ export default function todoReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
-                errorMessage: action.error.message
+                errorMessage: action.error.message,
+                errorType: action.type
             }
 
         case ADD_TODO_START:
@@ -63,7 +64,7 @@ export default function todoReducer(state = initialState, action) {
                 isPending: false
             }
 
-        case DELETE_TODO:
+        case DELETE_TODO_START:
             return {
                 ...state,
                 todos: state.todos.filter(todo => todo.id !== action.id)
