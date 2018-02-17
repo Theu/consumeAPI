@@ -12,7 +12,6 @@ import {
 import { ADD_TODO_ERROR } from '../redux/actions/actionTypes';
 
 import Todo from './Todo';
-import ErrorHandler from './ErrorHandler';
 
 import './todoList.css'
 class TodoList extends React.Component {
@@ -40,8 +39,7 @@ class TodoList extends React.Component {
          return (
             <ul className="todoList-wrapper">
                 {todos.map((key, value, id) => {
-                    const todoValue = ((todos.length - 1 === value) && errorType === ADD_TODO_ERROR ) ? addFailedMessage : key.title
-
+                    
                     return (
                         <Todo
                             key={value}
@@ -49,8 +47,6 @@ class TodoList extends React.Component {
                             id={key.id}
                             valueButton={valueButton}
                             todoRemove={todoRemove(key.id)}
-                            // pendingStyle={pendingTodo}
-                            // failingButtonStyle={hideDeleteButton}
                              />
                     )
                 })}
