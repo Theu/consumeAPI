@@ -2,14 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-    getTodos,
-    getPending,
-    getErrorMessage,
-    getErrorType
-} from '../redux/actions/selectors';
-
-import { ADD_TODO_ERROR } from '../redux/actions/actionTypes';
+import {getTodos} from '../redux/actions/selectors';
 
 import Todo from './Todo';
 
@@ -31,8 +24,7 @@ class TodoList extends React.Component {
         const {
             todoRemove,
             valueButton,
-            todos,
-            errorType
+            todos
          } = this.props;
 
          return (
@@ -41,7 +33,7 @@ class TodoList extends React.Component {
                     return (
                         <Todo
                             key={value}
-                            title={value}
+                            title={key.title}
                             id={key.id}
                             valueButton={valueButton}
                             todoRemove={todoRemove(key.id)}
@@ -55,10 +47,7 @@ class TodoList extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        todos: getTodos(state),
-        isPending: getPending(state),
-        errorType: getErrorType(state),
-        errorMessage: getErrorMessage(state)
+        todos: getTodos(state)
     }
 }
 

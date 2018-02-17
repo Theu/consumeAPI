@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import './todo.css';
 
 class Todo extends React.Component {
@@ -10,17 +9,15 @@ class Todo extends React.Component {
             todoRemove,
             valueButton,
             title,
-            id,
-            pendingStyle,
-            failingButtonStyle
+            id
          } = this.props;
-
+         
         return (
             <div>
-                <li className={`todo-wrapper ${pendingStyle}`}>
+                <li className={`todo-wrapper`}>
                     {title}
                     <input
-                        className={`todo-button ${failingButtonStyle}`}
+                        className={`todo-button`}
                         type='submit'
                         id={id}
                         value={valueButton}
@@ -30,5 +27,6 @@ class Todo extends React.Component {
         )
     }
 }
+
 
 export default Todo;

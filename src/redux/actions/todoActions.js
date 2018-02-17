@@ -10,13 +10,21 @@ import {
     deleteTodo
 } from './actionsCreators';
 
+import {consumeApi} from '../../tools/axiosBaseURL'
+
+
+
+
 import {
     url,
-    baseURL // remeber to change this axiosIstance?
+    axiosInstance // remeber to change this axiosIstance?
 } from '../../tools/axiosBaseURL';
 
-const getFromServer = () => baseURL.get(url); //rem to change to a function const getFromServer = (url) => baseURL.get(url)
-const GENERIC_NETWORK_ERROR = 'GENERIC_NETWORK_ERROR';
+const {
+    getTodoFromServer,
+    postTodo,
+    removeTodo
+} = consumeApi(axiosInstance)
 
 export function todo_load_start() {
     return async dispatch => {
@@ -32,7 +40,7 @@ export function todo_load() {
     return async dispatch => {
         try {
             dispatch(loadTodoStart())
-            dispatch(loadTodoSuccess(await getFromServer()))
+            dispatch(loadTodoSuccess(await getTodoFromServer()))
         } catch(error) {
             dispatch(todo_load_error(error))
         }
@@ -46,9 +54,6 @@ export function todo_load_error(error) {
 }
 
 /// TODO_ADD
-
-const postTodo = (todoTitle) => baseURL.post('url', todoTitle)
-
 export function todo_add_start(todoTitle) {
     return async dispatch => {
         try {
@@ -58,6 +63,12 @@ export function todo_add_start(todoTitle) {
         } catch (error) {
             dispatch(todo_add_error(error))
         }
+    }
+}
+
+export function todo_add(todoTitle) {
+    return async dispatch => {
+        dispatch(todo_add_start(todoTitle))
     }
 }
 
@@ -86,16 +97,11 @@ export function todo_add_success(todoTitle) {
 export function todo_delete(todoId) {
     return async dispatch => {
         try {
-            dispatch(deleteTodo(todoId)) //more for personal learning. the real add_toServer is at next line
-            const removeTodo = await baseURL.delete(`todos/${todoId}`)
-            if(removeTodo.statusText === 'No Content') {
-                dispatch(loadTodoSuccess(await baseURL.get(url)))
-            }
+            dispatch(deleteTodo(todoId))
+            await removeTodo(todoId)
+            dispatch(loadTodoSuccess(await axiosInstance.get(url)))
         } catch(error) {
-            (!error.response) ?
-                dispatch(loadTodoError(GENERIC_NETWORK_ERROR))
-            :
-                dispatch(loadTodoError(error.response.status))
+            console.log('taaaaak', error);
         }
     }
 }
