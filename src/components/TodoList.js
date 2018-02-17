@@ -37,8 +37,7 @@ class TodoList extends React.Component {
 
          return (
             <ul className="todoList-wrapper">
-                {todos.map((key, value, id) => {
-                    
+                {todos.map((key, value, id) => { 
                     return (
                         <Todo
                             key={value}
@@ -49,9 +48,6 @@ class TodoList extends React.Component {
                              />
                     )
                 })}
-
-
-
             </ul>
         )
     }
