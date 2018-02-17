@@ -13,7 +13,6 @@ import {
   todo_load,
   todo_load_error,
 
-  todo_add,
   todo_add_start,
 
   todo_delete
@@ -26,8 +25,8 @@ import {
 
 import TodoList from './components/TodoList';
 import InputField from './components/InputField';
+import AnimatedMessage from './components/AnimatedMessage';
 import ErrorHandler from './components/ErrorHandler';
-import { isError } from 'util';
 
 class App extends React.Component {
   constructor(props) {
@@ -44,14 +43,11 @@ class App extends React.Component {
     const {
       errorMessage,
       errorType,
-      isPending,
-      isError
+      isPending
     } = this.props;
 
     const isLoadError = errorType === LOAD_TODOS_ERROR;
-    const todoPending = isPending
-    const displayError = (errorType === ADD_TODO_ERROR) ? 'we cannot add your todo' : 'we are processing your request'
-    console.log('errorType', errorType);
+
     return (
         <div>
           <h1>Todo's List</h1>
@@ -68,13 +64,16 @@ class App extends React.Component {
 
             }
             {isPending ?
-              <h1>we are processing your request</h1>
+              <AnimatedMessage
+                message={'Saving todo'}
+              />
               :
               <InputField
                   placeholder={'add todo'}
-                  onTitleChange={this.onTitleChange}
-                  handleClick={this.addTodo}
-                  ref={addTodoField => this.addTodoField = addTodoField} />
+                  onTitleChange={this.listenInputFieldChange}
+                  handleClick={this.createTodo}
+                  ref={addTodoField => this.addTodoField = addTodoField}
+                   />
             }
 
             </div>
@@ -82,20 +81,21 @@ class App extends React.Component {
     }
 
 
-  onTitleChange = (event) => {
+  listenInputFieldChange = (event) => {
     this.setState({title:event.target.value})
   }
 
-  addTodo = () => {
-    if (this.state.title.length > 0) { //todo: add check for input validty
-      this.props.todo_add_start({title:this.state.title});
-      if((this.props.isPending === false) && (this.props.isError === false)) {
-        console.log("ortica");
-        this.addTodoField.clear();
-      }
+  keepInputField = () => {
+    if((this.props.isPending === false) && (this.props.isError === true)) {
+      this.addTodoField.input.value = this.state.title
     }
-    console.log("object", this.props.isError);
-
+  }
+  
+  createTodo = async () => {
+    if (this.state.title.length > 0) { //todo: add check for input validty
+      await this.props.todo_add_start({title:this.state.title});
+      this.keepInputField(); 
+    }
   }
 
   deleteTodo = (event) => {
@@ -105,7 +105,6 @@ class App extends React.Component {
 
 
 function mapStateToProps(state) {
-  console.log("STATE", state);
   return {
       isError: getError(state),
       errorMessage: getErrorMessage(state),

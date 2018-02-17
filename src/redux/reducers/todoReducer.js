@@ -43,6 +43,8 @@ export default function todoReducer(state = initialState, action) {
         case ADD_TODO_START:
             return {
                 ...state,
+                errorType: '',
+                isError: false,
                 isPending: true,
             }
         case ADD_TODO_SUCCESS:
@@ -53,7 +55,6 @@ export default function todoReducer(state = initialState, action) {
                 isPending: true,
             }
         case ADD_TODO_ERROR:
-            console.log('ADD_TODO_ERROR', action);
             return {
                 ...state,
                 isError: true,
