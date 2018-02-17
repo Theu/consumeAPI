@@ -35,7 +35,6 @@ class TodoList extends React.Component {
             errorType
          } = this.props;
 
-         const addFailedMessage = 'We are sorry but we cannot add your entry'
          return (
             <ul className="todoList-wrapper">
                 {todos.map((key, value, id) => {
