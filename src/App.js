@@ -9,18 +9,17 @@ import {
 } from './redux/actions/selectors';
 
 import {
-  // todo_load_start,
   todo_load,
-  // todo_load_error,
 
   todo_add_start,
 
-  todo_delete
+  todo_delete_start
 } from './redux/actions/todoActions';
 
 import {
   LOAD_TODOS_ERROR,
-  ADD_TODO_ERROR
+  ADD_TODO_ERROR,
+  DELETE_TODO_ERROR
 } from './redux/actions/actionTypes'
 
 import TodoList from './components/TodoList';
@@ -43,12 +42,11 @@ class App extends React.Component {
     const {
       errorMessage,
       errorType,
-      isPending,
-      pendingStyle
+      isPending
     } = this.props;
 
     const isLoadError = errorType === LOAD_TODOS_ERROR;
-    
+    console.log('remove', errorType);
     return (
         <div>
           <h1>Todo's List</h1>
@@ -58,11 +56,15 @@ class App extends React.Component {
             }
               <TodoList
                 todoRemove={() => this.deleteTodo}
-                valueButton={'delete to do'}
-                pendingStyle={pendingStyle} />
+                valueButton={'delete to do'} />
             {(errorType === ADD_TODO_ERROR) &&
 
               <h1>we cannot add your todo</h1>
+
+            }
+            {(errorType === DELETE_TODO_ERROR) &&
+
+              <h1>we cannot remove your todo</h1>
 
             }
             {isPending ?
@@ -101,7 +103,7 @@ class App extends React.Component {
   }
 
   deleteTodo = (event) => {
-    this.props.todo_delete(event.target.id);
+    this.props.todo_delete_start(event.target.id);
   }
 }
 
@@ -116,11 +118,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    // todo_load_start,
     todo_load,
-    // todo_load_error,
     todo_add_start,
-    todo_delete
+    todo_delete_start
   }
 
 

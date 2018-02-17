@@ -59,3 +59,17 @@ export function deleteTodoStart(todos) {
         todos
     }
 }
+
+export function deleteTodoSuccess(todos) {
+    return {
+        type: DELETE_TODO_SUCCESS,
+        todos
+    }
+}
+
+export function deleteTodoError(error) {
+    return {
+        type: DELETE_TODO_ERROR,
+        error
+    }
+}
