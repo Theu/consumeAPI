@@ -13,7 +13,7 @@ import {
   todo_load,
   todo_load_error,
 
-  todo_add_start,
+  todo_add,
 
   todo_delete
 } from './redux/actions/todoActions';
@@ -43,11 +43,12 @@ class App extends React.Component {
     const {
       errorMessage,
       errorType,
-      isPending
+      isPending,
+      pendingStyle
     } = this.props;
 
     const isLoadError = errorType === LOAD_TODOS_ERROR;
-
+    
     return (
         <div>
           <h1>Todo's List</h1>
@@ -57,7 +58,8 @@ class App extends React.Component {
             }
               <TodoList
                 todoRemove={() => this.deleteTodo}
-                valueButton={'delete to do'} />
+                valueButton={'delete to do'}
+                pendingStyle={pendingStyle} />
             {(errorType === ADD_TODO_ERROR) &&
 
               <h1>we cannot add your todo</h1>
@@ -65,7 +67,7 @@ class App extends React.Component {
             }
             {isPending ?
               <AnimatedMessage
-                message={'Saving todo'}
+                message={'Storing todo to the server'}
               />
               :
               <InputField
@@ -85,7 +87,7 @@ class App extends React.Component {
     this.setState({title:event.target.value})
   }
 
-  keepInputField = () => {
+  keepInputFieldValue = () => {
     if((this.props.isPending === false) && (this.props.isError === true)) {
       this.addTodoField.input.value = this.state.title
     }
@@ -93,8 +95,8 @@ class App extends React.Component {
   
   createTodo = async () => {
     if (this.state.title.length > 0) { //todo: add check for input validty
-      await this.props.todo_add_start({title:this.state.title});
-      this.keepInputField(); 
+      await this.props.todo_add({title:this.state.title});
+      this.keepInputFieldValue(); 
     }
   }
 
@@ -117,7 +119,7 @@ const mapDispatchToProps = {
     todo_load_start,
     todo_load,
     todo_load_error,
-    todo_add_start,
+    todo_add,
     todo_delete
   }
 
