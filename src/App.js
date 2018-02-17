@@ -26,6 +26,7 @@ import TodoList from './components/TodoList';
 import InputField from './components/InputField';
 import AnimatedMessage from './components/AnimatedMessage';
 import ErrorHandler from './components/ErrorHandler';
+import ErrorMessage from './components/ErrorMessage';
 
 class App extends React.Component {
   constructor(props) {
@@ -46,7 +47,9 @@ class App extends React.Component {
     } = this.props;
 
     const isLoadError = errorType === LOAD_TODOS_ERROR;
-    console.log('remove', errorType);
+    const isAddError = errorType === ADD_TODO_ERROR;
+    const isDeleteError = errorType === DELETE_TODO_ERROR
+    
     return (
         <div>
           <h1>Todo's List</h1>
@@ -57,15 +60,13 @@ class App extends React.Component {
               <TodoList
                 todoRemove={() => this.deleteTodo}
                 valueButton={'delete to do'} />
-            {(errorType === ADD_TODO_ERROR) &&
-
-              <h1>we cannot add your todo</h1>
-
+            {isAddError &&
+              <ErrorMessage 
+                errorMessage={'we cannot add your todo'} />
             }
-            {(errorType === DELETE_TODO_ERROR) &&
-
-              <h1>we cannot remove your todo</h1>
-
+            {isDeleteError &&
+              <ErrorMessage 
+                errorMessage={'we cannot remove your todo'} />
             }
             {isPending ?
               <AnimatedMessage

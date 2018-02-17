@@ -5,18 +5,22 @@ import './errorHandler.css'
 class ErrorHandler extends React.Component {
     render() {
         const {
-            faillureReason,
-            toggleError
+            faillureReason
         } = this.props
 
         return (
             <div className='errorHandler-wrapper'>
                 <div>We can't satisfy your request because we got {faillureReason}.</div>
                 <div className='toggle-alert'
-                onClick={toggleError}>Got it</div>
+                onClick={this.toggleError}>Got it</div>
             </div>
         )
     }
+
+    toggleError = () => {
+        window.location.reload()
+    }
+
 }
 
 export default ErrorHandler;
