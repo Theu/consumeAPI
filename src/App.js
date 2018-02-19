@@ -10,11 +10,11 @@ import {
 } from './redux/actions/selectors';
 
 import {
-  todo_load_success,
+  todoLoadSuccess,
 
-  todo_add_start,
+  todoAddStart,
 
-  todo_delete_start
+  todoDeleteStart
 } from './redux/actions/todoActions';
 
 import {
@@ -38,7 +38,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.props.todo_load_success();
+    this.props.todoLoadSuccess();
   }
   render() {
     const {
@@ -100,7 +100,7 @@ class App extends React.Component {
   createTodo = async () => {
     if (this.state.title.length > 0) {
       //todo: add check for input validty
-      await this.props.todo_add_start({title:this.state.title});
+      await this.props.todoAddStart({title:this.state.title});
       this.keepInputFieldValue();
     }
   }
@@ -116,7 +116,7 @@ class App extends React.Component {
   }
 
   deleteTodo = (event) => {
-    this.props.todo_delete_start(event.target.id);
+    this.props.todoDeleteStart(event.target.id);
   }
 }
 
@@ -132,9 +132,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    todo_load_success,
-    todo_add_start,
-    todo_delete_start
+    todoLoadSuccess,
+    todoAddStart,
+    todoDeleteStart
   }
 
 

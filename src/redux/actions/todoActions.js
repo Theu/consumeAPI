@@ -23,88 +23,88 @@ const {
     removeTodo
 } = consumeApi(axiosInstance)
 
-export function todo_load_start() {
+export function todoLoadStart() {
     return dispatch => {
         try {
             dispatch(loadTodoStart())
         } catch (error) {
-            dispatch(todo_load_error(error))
+            dispatch(todoLoadError(error))
         }
     }
 }
 
-export function todo_load_success() {
+export function todoLoadSuccess() {
     return async dispatch => {
         try {
             dispatch(loadTodoStart())
             dispatch(loadTodoSuccess(await getTodoFromServer()))
         } catch(error) {
-            dispatch(todo_load_error(error))
+            dispatch(todoLoadError(error))
         }
     }
 }
 
-export function todo_load_error(error) {
+export function todoLoadError(error) {
     return dispatch => {
         dispatch(loadTodoError(error))
     }
 }
 
 
-export function todo_add_start(todoTitle) {
+export function todoAddStart(todoTitle) {
     return async dispatch => {
         try {
             dispatch(addTodoStart(todoTitle))
             await postTodo(todoTitle)
-            dispatch(todo_add_success(todoTitle))
+            dispatch(todoAddSuccess(todoTitle))
         } catch (error) {
-            dispatch(todo_add_error(error))
+            dispatch(todoAddError(error))
         }
     }
 }
 
-export function todo_add_error(error) {
+export function todoAddError(error) {
     return dispatch => {
         dispatch(addTodoError(error))
     }
 }
 
-export function todo_add_success(todoTitle) {
+export function todoAddSuccess(todoTitle) {
     return dispatch => {
         try {
             dispatch(addTodoSuccess(todoTitle))
-            dispatch(todo_load_success())
+            dispatch(todoLoadSuccess())
         } catch(error) {
-            dispatch(todo_add_error(error))
+            dispatch(todoAddError(error))
         }
     }
 }
 
 
-export function todo_delete_start(todoId) {
+export function todoDeleteStart(todoId) {
     return async dispatch => {
         try {
             dispatch(deleteTodoStart(todoId))
             await removeTodo(todoId)
-            dispatch(todo_delete_success(todoId))
+            dispatch(todoDeleteSuccess(todoId))
         } catch(error) {
-            dispatch(todo_delete_error(error))
+            dispatch(todoDeleteError(error))
         }
     }
 }
 
-export function todo_delete_success(todoId) {
+export function todoDeleteSuccess(todoId) {
     return async dispatch => {
         try {
             dispatch(deleteTodoSuccess(todoId))
             dispatch(loadTodoSuccess(await getTodoFromServer()))
         } catch (error) {
-            dispatch(todo_delete_error(error))
+            dispatch(todoDeleteError(error))
         }
     }
 }
 
-export function todo_delete_error(error) {
+export function todoDeleteError(error) {
     return dispatch => {
         dispatch(deleteTodoError(error))
     }
