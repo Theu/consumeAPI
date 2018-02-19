@@ -24,7 +24,7 @@ const {
 } = consumeApi(axiosInstance)
 
 export function todo_load_start() {
-    return async dispatch => {
+    return dispatch => {
         try {
             dispatch(loadTodoStart())
         } catch (error) {
