@@ -12,12 +12,8 @@ import {
     deleteTodoError
 } from './actionsCreators';
 
-import {consumeApi} from '../../tools/axiosBaseURL'
-
-
-
-
 import {
+    consumeApi,
     axiosInstance // remeber to change this axiosIstance?
 } from '../../tools/axiosBaseURL';
 
