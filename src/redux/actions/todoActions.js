@@ -14,7 +14,7 @@ import {
 
 import {
     consumeApi,
-    axiosInstance // remeber to change this axiosIstance?
+    axiosInstance
 } from '../../tools/axiosBaseURL';
 
 const {
@@ -33,7 +33,7 @@ export function todo_load_start() {
     }
 }
 
-export function todo_load() {
+export function todo_load_success() {
     return async dispatch => {
         try {
             dispatch(loadTodoStart())
@@ -50,7 +50,7 @@ export function todo_load_error(error) {
     }
 }
 
-/// TODO_ADD
+
 export function todo_add_start(todoTitle) {
     return async dispatch => {
         try {
@@ -69,14 +69,11 @@ export function todo_add_error(error) {
     }
 }
 
-
-
-
 export function todo_add_success(todoTitle) {
     return dispatch => {
         try {
             dispatch(addTodoSuccess(todoTitle))
-            dispatch(todo_load())
+            dispatch(todo_load_success())
         } catch(error) {
             dispatch(todo_add_error(error))
         }
@@ -84,7 +81,6 @@ export function todo_add_success(todoTitle) {
 }
 
 
-/// TODO_DELETE
 export function todo_delete_start(todoId) {
     return async dispatch => {
         try {
@@ -100,7 +96,7 @@ export function todo_delete_start(todoId) {
 export function todo_delete_success(todoId) {
     return async dispatch => {
         try {
-            dispatch(deleteTodoSuccess(todoId))           
+            dispatch(deleteTodoSuccess(todoId))
             dispatch(loadTodoSuccess(await getTodoFromServer()))
         } catch (error) {
             dispatch(todo_delete_error(error))
