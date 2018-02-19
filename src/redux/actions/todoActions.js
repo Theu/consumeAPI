@@ -12,13 +12,8 @@ import {
     deleteTodoError
 } from './actionsCreators';
 
-import {consumeApi} from '../../tools/axiosBaseURL'
-
-
-
-
 import {
-    url,
+    consumeApi,
     axiosInstance // remeber to change this axiosIstance?
 } from '../../tools/axiosBaseURL';
 
@@ -104,7 +99,8 @@ export function todo_delete_start(todoId) {
 
 export function todo_delete_success(todoId) {
     return async dispatch => {
-        try {           
+        try {
+            dispatch(deleteTodoSuccess(todoId))           
             dispatch(loadTodoSuccess(await getTodoFromServer()))
         } catch (error) {
             dispatch(todo_delete_error(error))

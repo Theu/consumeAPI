@@ -5,7 +5,8 @@ import {
   getError,
   getErrorMessage,
   getErrorType,
-  getPending
+  getPending,
+  getLoading
 } from './redux/actions/selectors';
 
 import {
@@ -26,6 +27,7 @@ import TodoList from './components/TodoList';
 import InputField from './components/InputField';
 import AnimatedMessage from './components/AnimatedMessage';
 import ErrorHandler from './components/ErrorHandler';
+import ErrorMessage from './components/ErrorMessage';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,45 +44,56 @@ class App extends React.Component {
     const {
       errorMessage,
       errorType,
-      isPending
+      isPending,
+      isLoading
     } = this.props;
 
     const isLoadError = errorType === LOAD_TODOS_ERROR;
-    console.log('remove', errorType);
+    const isAddError = errorType === ADD_TODO_ERROR;
+    const isDeleteError = errorType === DELETE_TODO_ERROR
+    
     return (
         <div>
           <h1>Todo's List</h1>
-            {isLoadError &&
-              <ErrorHandler
-                faillureReason={errorMessage} />
-            }
-              <TodoList
-                todoRemove={() => this.deleteTodo}
-                valueButton={'delete to do'} />
-            {(errorType === ADD_TODO_ERROR) &&
+          {isLoading &&
+            <AnimatedMessage 
+              message={'We are loading the todo list'} />
+          }
+          
+          {isLoadError &&
+            <ErrorHandler
+              faillureReason={errorMessage} />
+          }
 
-              <h1>we cannot add your todo</h1>
+          <TodoList
+            todoRemove={() => this.deleteTodo}
+            valueButton={'delete to do'} />
+          
+          
 
-            }
-            {(errorType === DELETE_TODO_ERROR) &&
-
-              <h1>we cannot remove your todo</h1>
-
-            }
-            {isPending ?
-              <AnimatedMessage
-                message={'Storing todo to the server'}
-              />
-              :
-              <InputField
-                  placeholder={'add todo'}
-                  onTitleChange={this.listenInputFieldChange}
-                  handleClick={this.createTodo}
-                  ref={addTodoField => this.addTodoField = addTodoField}
-              />
-            }
-
-            </div>
+          {isAddError &&
+            <ErrorMessage 
+              errorMessage={'we cannot add your todo'} />
+          }
+          
+          {isDeleteError &&
+            <ErrorMessage 
+              errorMessage={'we cannot remove your todo'} />
+          }
+          
+          {isPending ?
+            <AnimatedMessage
+              message={'Storing todo to the server'}
+            />
+            :
+            <InputField
+                placeholder={'add todo'}
+                onTitleChange={this.listenInputFieldChange}
+                handleClick={this.createTodo}
+                ref={addTodoField => this.addTodoField = addTodoField}
+            />
+          }
+        </div>
       );
     }
 
@@ -113,7 +126,8 @@ function mapStateToProps(state) {
       isError: getError(state),
       errorMessage: getErrorMessage(state),
       errorType: getErrorType(state),
-      isPending: getPending(state)
+      isPending: getPending(state),
+      isLoading: getLoading(state)
   };
 }
 
