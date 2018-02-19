@@ -97,6 +97,13 @@ class App extends React.Component {
       );
     }
 
+  createTodo = async () => {
+    if (this.state.title.length > 0) {
+      //todo: add check for input validty
+      await this.props.todo_add_start({title:this.state.title});
+      this.keepInputFieldValue();
+    }
+  }
 
   listenInputFieldChange = (event) => {
     this.setState({title:event.target.value})
@@ -105,13 +112,6 @@ class App extends React.Component {
   keepInputFieldValue = () => {
     if((this.props.isPending === false) && (this.props.isError === true)) {
       this.addTodoField.input.value = this.state.title
-    }
-  }
-
-  createTodo = async () => {
-    if (this.state.title.length > 0) { //todo: add check for input validty
-      await this.props.todo_add_start({title:this.state.title});
-      this.keepInputFieldValue();
     }
   }
 
