@@ -2,32 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
-  getError,
-  getErrorMessage,
-  getErrorType,
-  getPending,
-  getLoading
+  getTodos
 } from './redux/actions/selectors';
 
-import {
-  todoLoadSuccess,
-
-  todoAddStart,
-
-  todoDeleteStart
-} from './redux/actions/todoActions';
-
-import {
-  LOAD_TODOS_ERROR,
-  ADD_TODO_ERROR,
-  DELETE_TODO_ERROR
-} from './redux/actions/actionTypes'
+import {loadTodos} from './redux/actions/actionsCreators';
 
 import TodoList from './components/TodoList';
 import InputField from './components/InputField';
-import AnimatedMessage from './components/AnimatedMessage';
-import ErrorHandler from './components/ErrorHandler';
-import ErrorMessage from './components/ErrorMessage';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,105 +19,36 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.props.todoLoadSuccess();
+    this.props.loadTodos();
   }
   render() {
     const {
-      errorMessage,
-      errorType,
-      isPending,
-      isLoading
+      todos
     } = this.props;
-
-    const isLoadError = errorType === LOAD_TODOS_ERROR;
-    const isAddError = errorType === ADD_TODO_ERROR;
-    const isDeleteError = errorType === DELETE_TODO_ERROR
-
     return (
         <div>
           <h1>Todo's List</h1>
-          {isLoading &&
-            <AnimatedMessage
-              message={'We are loading the todo list'} />
-          }
-
-          {isLoadError &&
-            <ErrorHandler
-              faillureReason={errorMessage} />
-          }
 
           <TodoList
+            todos={todos}
             todoRemove={() => this.deleteTodo}
             valueButton={'delete to do'} />
 
-
-
-          {isAddError &&
-            <ErrorMessage
-              errorMessage={'we cannot add your todo'} />
-          }
-
-          {isDeleteError &&
-            <ErrorMessage
-              errorMessage={'we cannot remove your todo'} />
-          }
-
-          {isPending ?
-            <AnimatedMessage
-              message={'Storing todo to the server'}
-            />
-            :
-            <InputField
-                placeholder={'add todo'}
-                onTitleChange={this.listenInputFieldChange}
-                handleClick={this.createTodo}
-                ref={addTodoField => this.addTodoField = addTodoField}
-            />
-          }
         </div>
       );
     }
-
-  createTodo = async () => {
-    if (this.state.title.length > 0) {
-      //todo: add check for input validty
-      await this.props.todoAddStart({title:this.state.title});
-      this.keepInputFieldValue();
-    }
-  }
-
-  listenInputFieldChange = (event) => {
-    this.setState({title:event.target.value})
-  }
-
-  keepInputFieldValue = () => {
-    if((this.props.isPending === false) && (this.props.isError === true)) {
-      this.addTodoField.input.value = this.state.title
-    }
-  }
-
-  deleteTodo = (event) => {
-    this.props.todoDeleteStart(event.target.id);
-  }
 }
 
 
 function mapStateToProps(state) {
+  console.log('state', state);
   return {
-      isError: getError(state),
-      errorMessage: getErrorMessage(state),
-      errorType: getErrorType(state),
-      isPending: getPending(state),
-      isLoading: getLoading(state)
+    todos: getTodos(state)
   };
 }
 
 const mapDispatchToProps = {
-    todoLoadSuccess,
-    todoAddStart,
-    todoDeleteStart
-  }
-
-
+  loadTodos
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
