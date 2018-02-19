@@ -12,7 +12,7 @@ describe('todos reducer', () => {
             isLoading: false,
             todos: []
         }
-      )// it should be equal to my initial state
+      )
     });
 
 

@@ -10,11 +10,11 @@ import {
 } from './redux/actions/selectors';
 
 import {
-  todo_load,
+  todoLoadSuccess,
 
-  todo_add_start,
+  todoAddStart,
 
-  todo_delete_start
+  todoDeleteStart
 } from './redux/actions/todoActions';
 
 import {
@@ -38,7 +38,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.props.todo_load();
+    this.props.todoLoadSuccess();
   }
   render() {
     const {
@@ -51,15 +51,15 @@ class App extends React.Component {
     const isLoadError = errorType === LOAD_TODOS_ERROR;
     const isAddError = errorType === ADD_TODO_ERROR;
     const isDeleteError = errorType === DELETE_TODO_ERROR
-    
+
     return (
         <div>
           <h1>Todo's List</h1>
           {isLoading &&
-            <AnimatedMessage 
+            <AnimatedMessage
               message={'We are loading the todo list'} />
           }
-          
+
           {isLoadError &&
             <ErrorHandler
               faillureReason={errorMessage} />
@@ -68,19 +68,19 @@ class App extends React.Component {
           <TodoList
             todoRemove={() => this.deleteTodo}
             valueButton={'delete to do'} />
-          
-          
+
+
 
           {isAddError &&
-            <ErrorMessage 
+            <ErrorMessage
               errorMessage={'we cannot add your todo'} />
           }
-          
+
           {isDeleteError &&
-            <ErrorMessage 
+            <ErrorMessage
               errorMessage={'we cannot remove your todo'} />
           }
-          
+
           {isPending ?
             <AnimatedMessage
               message={'Storing todo to the server'}
@@ -97,6 +97,13 @@ class App extends React.Component {
       );
     }
 
+  createTodo = async () => {
+    if (this.state.title.length > 0) {
+      //todo: add check for input validty
+      await this.props.todoAddStart({title:this.state.title});
+      this.keepInputFieldValue();
+    }
+  }
 
   listenInputFieldChange = (event) => {
     this.setState({title:event.target.value})
@@ -107,16 +114,9 @@ class App extends React.Component {
       this.addTodoField.input.value = this.state.title
     }
   }
-  
-  createTodo = async () => {
-    if (this.state.title.length > 0) { //todo: add check for input validty
-      await this.props.todo_add_start({title:this.state.title});
-      this.keepInputFieldValue(); 
-    }
-  }
 
   deleteTodo = (event) => {
-    this.props.todo_delete_start(event.target.id);
+    this.props.todoDeleteStart(event.target.id);
   }
 }
 
@@ -132,9 +132,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    todo_load,
-    todo_add_start,
-    todo_delete_start
+    todoLoadSuccess,
+    todoAddStart,
+    todoDeleteStart
   }
 
 

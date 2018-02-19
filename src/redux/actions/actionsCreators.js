@@ -53,17 +53,17 @@ export function addTodoError(error) {
     }
 }
 
-export function deleteTodoStart(todos) {
+export function deleteTodoStart(todo) {
     return {
         type: DELETE_TODO_START,
-        todos
+        todo
     }
 }
 
-export function deleteTodoSuccess(todos) {
+export function deleteTodoSuccess(todo) {
     return {
         type: DELETE_TODO_SUCCESS,
-        todos
+        todo
     }
 }
 

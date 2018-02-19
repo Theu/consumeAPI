@@ -8,6 +8,6 @@ export function consumeApi(axios) {
     return {
         getTodoFromServer: () => axios.get(url),
         postTodo: (todoTitle) => axios.post(url, todoTitle),
-        removeTodo: (todoId) => axiosInstance.delete(`todos/${todoId}`)
+        removeTodo: (todoId) => axios.delete(`todos/${todoId}`)
     }
 }

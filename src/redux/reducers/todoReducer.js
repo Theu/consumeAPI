@@ -56,7 +56,7 @@ export default function todoReducer(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 todos: state.todos.concat(action.todo),
-                isPending: true,
+                isPending: false,
             }
         case ADD_TODO_ERROR:
             return {
@@ -72,16 +72,12 @@ export default function todoReducer(state = initialState, action) {
                 ...state,
                 isDeleting: true,
                 isError: false,
-                errorMessage: '',
-                errorType: '',
             }
         case DELETE_TODO_SUCCESS:
             return {
                 ...state,
                 isDeleting: false,
                 isError: false,
-                errorMessage: '',
-                errorType: '',
                 todos: state.todos.filter(todo => todo.id !== action.id)
             }
         case DELETE_TODO_ERROR:

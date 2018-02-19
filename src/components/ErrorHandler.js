@@ -4,9 +4,7 @@ import './errorHandler.css'
 
 class ErrorHandler extends React.Component {
     render() {
-        const {
-            faillureReason
-        } = this.props
+        const {faillureReason} = this.props
 
         return (
             <div className='errorHandler-wrapper'>
