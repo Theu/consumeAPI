@@ -1,21 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-
-import {getTodos} from '../redux/actions/selectors';
 
 import Todo from './Todo';
 
 import './todoList.css'
 class TodoList extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-          todos: this.props.todos
-        }
-    }
 
     static propTypes = {
+        todos: PropTypes.array,
         todoRemove: PropTypes.func,
         valueButton: PropTypes.string
     }
@@ -26,10 +18,9 @@ class TodoList extends React.Component {
             valueButton,
             todos
          } = this.props;
-
          return (
             <ul className="todoList-wrapper">
-                {todos.map((key, value, id) => { 
+                {todos.map((key, value, id) => {
                     return (
                         <Todo
                             key={value}
@@ -37,7 +28,7 @@ class TodoList extends React.Component {
                             id={key.id}
                             valueButton={valueButton}
                             todoRemove={todoRemove(key.id)}
-                             />
+                        />
                     )
                 })}
             </ul>
@@ -45,12 +36,4 @@ class TodoList extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        todos: getTodos(state)
-    }
-}
-
-
-
-export default connect(mapStateToProps)(TodoList);
+export default TodoList;
