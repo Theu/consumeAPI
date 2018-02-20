@@ -24,11 +24,11 @@ class App extends React.Component {
 
   render() {
     const {
-      todos,
       isLoading,
+      todos,
 
-      error,
-      isError
+      isError,
+      error
     } = this.props;
 
     return (

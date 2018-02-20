@@ -13,11 +13,6 @@ import LogIn from './components/LogIn';
 const store = configureStore();
 render(
   <Provider store={store}>
-    <BrowserRouter>
-      <div>
-        <Route exact path='/' component={LogIn} />
-        <Route exact path='/todo' component={App} />
-      </div>
-    </BrowserRouter>
+    <App />
   </Provider>
   , document.getElementById('root'));
