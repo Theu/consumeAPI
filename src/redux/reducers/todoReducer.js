@@ -29,7 +29,6 @@ export const todoReducer = (state = initialState, action) => {
         case LOAD_TODOS_ERROR:
             return {
                 ...state,
-                isLoading: false,
                 error: [action.payload.message, action.payload.response]
             }
 
