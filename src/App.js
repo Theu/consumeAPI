@@ -5,7 +5,7 @@ import {
   getTodos,
   isLoading,
 
-  isError,
+  hasError,
   getErrorType
   
 } from './redux/actions/selectors';
@@ -27,7 +27,7 @@ class App extends React.Component {
       isLoading,
       todoList,
 
-      isError,
+      hasError,
       errorType
     } = this.props;
 
@@ -35,7 +35,7 @@ class App extends React.Component {
         <div>
           <h1>Todos List</h1>
 
-          {isError &&
+          {hasError &&
             <ErrorHandler
               failureReason={errorType} />
           }
@@ -60,7 +60,7 @@ function mapStateToProps(state) {
     isLoading: isLoading(state),
     todoList: getTodos(state),
 
-    isError: isError(state),
+    hasError: hasError(state),
     errorType: getErrorType(state)
   }
 };

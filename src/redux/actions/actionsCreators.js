@@ -1,5 +1,5 @@
 import {
-    LOAD_TODOS_REQUEST,
+    LOAD_TODOS_START,
     LOAD_TODOS_SUCCESS,
     LOAD_TODOS_FAILURE
 } from './actionTypes';
@@ -13,8 +13,8 @@ const {
     getTodosFromServer
 } = consumeApi(axiosInstance)
 
-export const loadTodosRequest = () => ({
-    type: LOAD_TODOS_REQUEST
+export const loadTodosStart = () => ({
+    type: LOAD_TODOS_START
 });
 
 export const loadTodosSuccess = (todosRequested) => ({
@@ -29,7 +29,7 @@ export const loadTodosError = (error) => ({
 
 export function loadTodos(todos) {
     return dispatch => {
-        dispatch(loadTodosRequest());
+        dispatch(loadTodosStart());
         getTodosFromServer()
         .then(response => {
             dispatch(loadTodosSuccess(response.data));

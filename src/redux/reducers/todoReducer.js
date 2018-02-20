@@ -1,5 +1,5 @@
 import {
-    LOAD_TODOS_REQUEST,
+    LOAD_TODOS_START,
     LOAD_TODOS_SUCCESS,
     LOAD_TODOS_FAILURE
 } from '../actions/actionTypes';
@@ -13,7 +13,7 @@ const initialState = {
 export const todoReducer = (state = initialState, action) => {
     switch(action.type) {
         
-        case LOAD_TODOS_REQUEST:
+        case LOAD_TODOS_START:
             return {
                 ...state,
                 isLoading: true
