@@ -5,7 +5,7 @@ import {
   getTodos,
   isLoading,
 
-  hasError,
+  isError,
   getError
   
 } from './redux/actions/selectors';
@@ -13,7 +13,7 @@ import {
 import {loadTodos} from './redux/actions/actionsCreators';
 
 import TodoList from './components/TodoList';
-import Loadingmessage from './components/LoadingMessage';
+import LoadingMessage from './components/LoadingMessage';
 import ErrorHandler from './components/ErrorHandler';
 
 class App extends React.Component {
@@ -28,25 +28,27 @@ class App extends React.Component {
       todoList,
 
       isError,
-      error
+      errorType
     } = this.props;
 
     return (
         <div>
           <h1>Todos List</h1>
+
           {isError &&
             <ErrorHandler
-            faillureReason={error[0]} />
+              failureReason={errorType} />
           }
-          {isLoading ?
-            <Loadingmessage
+
+          {isLoading &&
+            <LoadingMessage
               message={'Loading'} />
-          :  
+          }
+
             <TodoList
             todos={todoList}
             todoRemove={() => this.deleteTodo}
             valueButton={'delete to do'} />
-          }
         </div>
       );
     }
@@ -58,8 +60,8 @@ function mapStateToProps(state) {
     isLoading: isLoading(state),
     todoList: getTodos(state),
 
-    isError: hasError(state),
-    error: getError(state)
+    isError: isError(state),
+    errorType: getError(state)
   }
 };
 

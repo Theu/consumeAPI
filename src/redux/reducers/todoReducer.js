@@ -29,7 +29,7 @@ export const todoReducer = (state = initialState, action) => {
         case LOAD_TODOS_FAILURE:
             return {
                 ...state,
-                error: [action.payload.message, action.payload.response]
+                error: action.payload.message
             }
 
         default:
