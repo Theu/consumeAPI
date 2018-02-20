@@ -33,7 +33,7 @@ class App extends React.Component {
 
     return (
         <div>
-          <h1>Todo's List</h1>
+          <h1>Todos List</h1>
           {isError &&
             <ErrorHandler
             faillureReason={error[0]} />
