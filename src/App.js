@@ -6,7 +6,7 @@ import {
   isLoading,
 
   isError,
-  getError
+  getErrorType
   
 } from './redux/actions/selectors';
 
@@ -61,7 +61,7 @@ function mapStateToProps(state) {
     todoList: getTodos(state),
 
     isError: isError(state),
-    errorType: getError(state)
+    errorType: getErrorType(state)
   }
 };
 
