@@ -25,7 +25,7 @@ class App extends React.Component {
   render() {
     const {
       isLoading,
-      todos,
+      todoList,
 
       isError,
       error
@@ -43,7 +43,7 @@ class App extends React.Component {
               message={'Loading'} />
           :  
             <TodoList
-            todos={todos}
+            todos={todoList}
             todoRemove={() => this.deleteTodo}
             valueButton={'delete to do'} />
           }
@@ -56,7 +56,7 @@ class App extends React.Component {
 function mapStateToProps(state) {
   return {
     isLoading: isLoading(state),
-    todos: getTodos(state),
+    todoList: getTodos(state),
 
     isError: hasError(state),
     error: getError(state)

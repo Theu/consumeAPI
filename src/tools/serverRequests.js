@@ -6,6 +6,6 @@ export const axiosInstance = axios.create({baseURL: 'http://localhost:3000'});
 
 export function consumeApi(axios) {
     return {
-        getTodosFromService: () => axios.get(url)
+        getTodosFromServer: () => axios.get(url)
     }
 }
