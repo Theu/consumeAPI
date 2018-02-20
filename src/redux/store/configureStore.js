@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer from '../reducers/todoReducer';
+import {todoReducer} from '../reducers/todoReducer';
 import thunk from 'redux-thunk'
 
 export default function configureStore(initialState) {
@@ -16,7 +16,7 @@ export default function configureStore(initialState) {
         devTools
     )
     return createStore(
-        rootReducer,
+        todoReducer,
         initialState,
         finalMiddlewares
     )

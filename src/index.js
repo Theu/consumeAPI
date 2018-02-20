@@ -10,15 +10,14 @@ import App from './App';
 
 import LogIn from './components/LogIn';
 
-
 const store = configureStore();
 render(
-        <Provider store={store}>
-                <BrowserRouter>
-                        <div>
-                                <Route exact path='/' component={LogIn} />
-                                <Route exact path='/todo' component={App} />
-                        </div>
-                </BrowserRouter>
-        </Provider>
-, document.getElementById('root'));
+  <Provider store={store}>
+    <BrowserRouter>
+      <div>
+        <Route exact path='/' component={LogIn} />
+        <Route exact path='/todo' component={App} />
+      </div>
+    </BrowserRouter>
+  </Provider>
+  , document.getElementById('root'));

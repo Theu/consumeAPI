@@ -2,38 +2,51 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
-  getTodos
+  getTodos,
+  isLoading,
+
+  hasError,
+  getError
+  
 } from './redux/actions/selectors';
 
 import {loadTodos} from './redux/actions/actionsCreators';
 
 import TodoList from './components/TodoList';
-import InputField from './components/InputField';
+import Loadingmessage from './components/LoadingMessage';
+import ErrorHandler from './components/ErrorHandler';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: ''
-    }
-  }
 
   componentWillMount() {
     this.props.loadTodos();
   }
+
   render() {
     const {
-      todos
+      todos,
+      isLoading,
+
+      error,
+      isError
     } = this.props;
+
     return (
         <div>
           <h1>Todo's List</h1>
-
-          <TodoList
+          {isError &&
+            <ErrorHandler
+            faillureReason={error[0]} />
+          }
+          {isLoading ?
+            <Loadingmessage
+              message={'Loading'} />
+          :  
+            <TodoList
             todos={todos}
             todoRemove={() => this.deleteTodo}
             valueButton={'delete to do'} />
-
+          }
         </div>
       );
     }
@@ -41,11 +54,14 @@ class App extends React.Component {
 
 
 function mapStateToProps(state) {
-  console.log('state', state);
   return {
-    todos: getTodos(state)
-  };
-}
+    isLoading: isLoading(state),
+    todos: getTodos(state),
+
+    isError: hasError(state),
+    error: getError(state)
+  }
+};
 
 const mapDispatchToProps = {
   loadTodos
