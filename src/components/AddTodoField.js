@@ -35,7 +35,7 @@ class AddeTodoField extends React.Component {
     this.setState({ title: event.target.value });
   };
 
-  addTodo = event => {
+  addTodo = () => {
     if(this.state.title.length > 0) {
       this.props.toAddTodo(this.state.title);
     }
