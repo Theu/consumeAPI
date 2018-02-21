@@ -8,7 +8,10 @@ import {
   getErrorType
 } from "./redux/actions/selectors";
 
-import { loadTodos } from "./redux/actions/actionsCreators";
+import {
+  loadTodos,
+  addTodo
+ } from "./redux/actions/actionsCreators";
 
 import TodoList from "./components/TodoList";
 import AddTodoField from "./components/AddTodoField";
@@ -33,23 +36,31 @@ class App extends React.Component {
       <div>
         <h1>Todos List</h1>
 
-        {hasError && <ErrorHandler failureReason={errorType} />}
+        {hasError &&
+          <ErrorHandler failureReason={errorType} />
+        }
 
-        {isLoading && <LoadingMessage message={"Loading"} />}
+        {isLoading &&
+          <LoadingMessage message={"Loading"} />
+        }
 
         <TodoList
           todos={todoList}
           todoRemove={() => this.deleteTodo}
           valueButton={"delete to do"}
         />
-        <AddTodoField placeholder={"add a todo"} todoAdded={this.todoAdded} />
+        {!isLoading &&
+          <AddTodoField
+            placeholder={"add a todo"}
+            todoAdded={this.todoAdded} />
+        }
+
       </div>
     );
   }
+
   todoAdded = title => {
-    console.log("------------------------------------");
-    console.log(title);
-    console.log("------------------------------------");
+    this.props.addTodo({title})
   };
 }
 
@@ -64,7 +75,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  loadTodos
+  loadTodos,
+  addTodo
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

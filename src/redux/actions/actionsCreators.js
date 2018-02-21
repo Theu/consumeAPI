@@ -1,7 +1,11 @@
 import {
     LOAD_TODOS_START,
     LOAD_TODOS_SUCCESS,
-    LOAD_TODOS_FAILURE
+    LOAD_TODOS_FAILURE,
+
+    ADD_TODO_START,
+    ADD_TODO_SUCCESS,
+    ADD_TODO_FAILURE
 } from './actionTypes';
 
 import {
@@ -10,7 +14,8 @@ import {
 } from '../../tools/serverRequests';
 
 const {
-    getTodosFromServer
+    getTodosFromServer,
+    postTodoToServer
 } = consumeApi(axiosInstance)
 
 export const loadTodosStart = () => ({
@@ -36,6 +41,34 @@ export function loadTodos(todos) {
         })
         .catch(error => {
             dispatch(loadTodosError(error));
+        })
+    }
+}
+
+export const addTodoStart = () => ({
+    type: ADD_TODO_START
+})
+
+export const addTodoSuccess = (addedTodo) => ({
+    type: ADD_TODO_SUCCESS,
+    payload: addedTodo
+})
+
+export const addTodoError = (error) => ({
+    type: ADD_TODO_FAILURE,
+    payload: error
+})
+
+export function addTodo(todo) {
+    return dispatch => {
+        dispatch(addTodoStart())
+        postTodoToServer(todo)
+        .then(response => {
+            dispatch(addTodoSuccess(todo))
+            dispatch(loadTodos())
+        })
+        .catch(error => {
+            dispatch(addTodoError(error))
         })
     }
 }
