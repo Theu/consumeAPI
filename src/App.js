@@ -7,7 +7,7 @@ import {
 
   hasError,
   getErrorType
-  
+
 } from './redux/actions/selectors';
 
 import {loadTodos} from './redux/actions/actionsCreators';
@@ -52,6 +52,11 @@ class App extends React.Component {
         </div>
       );
     }
+
+    deleteTodo = (event) => {
+      console.log(event.target.id);
+      // this.props.todoRemove()
+  }
 }
 
 

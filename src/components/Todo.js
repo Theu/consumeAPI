@@ -11,7 +11,7 @@ class Todo extends React.Component {
             title,
             id
          } = this.props;
-         
+
         return (
             <div>
                 <li className={`todo-wrapper`}>

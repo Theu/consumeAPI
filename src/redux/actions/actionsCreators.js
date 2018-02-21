@@ -1,7 +1,11 @@
 import {
     LOAD_TODOS_START,
     LOAD_TODOS_SUCCESS,
-    LOAD_TODOS_FAILURE
+    LOAD_TODOS_FAILURE,
+
+    DELETE_TODO_START,
+    DELETE_TODO_SUCCESS,
+    DELETE_TODO_FAILURE
 } from './actionTypes';
 
 import {
