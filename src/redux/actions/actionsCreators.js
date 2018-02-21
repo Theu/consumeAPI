@@ -1,31 +1,41 @@
 import {
-    LOAD_TODOS,
+    LOAD_TODOS_START,
     LOAD_TODOS_SUCCESS,
-    LOAD_TODOS_ERROR
+    LOAD_TODOS_FAILURE
 } from './actionTypes';
 
 import {
     consumeApi,
     axiosInstance
-} from '../../tools/axiosBaseURL';
-import { EROFS } from 'constants';
+} from '../../tools/serverRequests';
 
 const {
-    getTodosFromService
+    getTodosFromServer
 } = consumeApi(axiosInstance)
 
-function fetchLoadTodos(todosFetched) {
-    return {
-        type: LOAD_TODOS,
-        payload: todosFetched
-    }
-}
+export const loadTodosStart = () => ({
+    type: LOAD_TODOS_START
+});
+
+export const loadTodosSuccess = (todosRequested) => ({
+    type: LOAD_TODOS_SUCCESS,
+    payload: todosRequested
+});
+
+export const loadTodosError = (error) => ({
+    type: LOAD_TODOS_FAILURE,
+    payload: error
+})
 
 export function loadTodos(todos) {
     return dispatch => {
-        getTodosFromService()
+        dispatch(loadTodosStart());
+        getTodosFromServer()
         .then(response => {
-            dispatch(fetchLoadTodos(response.data))
-        });
+            dispatch(loadTodosSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(loadTodosError(error));
+        })
     }
 }

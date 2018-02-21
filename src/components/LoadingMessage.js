@@ -1,8 +1,8 @@
 import React from 'react'
 
-import './animatedMessage.css'
+import './loadingMessage.css'
 
-class AnimatedMessage extends React.Component {
+class LoadingMessage extends React.Component {
     render() {
         const {message} = this.props
 
@@ -17,4 +17,4 @@ class AnimatedMessage extends React.Component {
     }
 }
 
-export default AnimatedMessage;
+export default LoadingMessage;
