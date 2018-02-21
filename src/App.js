@@ -52,14 +52,14 @@ class App extends React.Component {
         {!isLoading &&
           <AddTodoField
             placeholder={"add a todo"}
-            todoAdded={this.todoAdded} />
+            toAddTodo={this.toAddTodo} />
         }
 
       </div>
     );
   }
 
-  todoAdded = title => {
+  toAddTodo = title => {
     this.props.addTodo({title})
   };
 }

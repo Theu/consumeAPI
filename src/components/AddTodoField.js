@@ -21,7 +21,6 @@ class AddeTodoField extends React.Component {
     return (
       <div>
         <input
-          ref={input => (this.input = input)}
           type="text"
           placeholder={placeholder}
           onChange={this.readInsertedTodo}
@@ -37,9 +36,10 @@ class AddeTodoField extends React.Component {
   readInsertedTodo = event => {
     this.setState({ title: event.target.value });
   };
+
   addTodo = event => {
     if(this.state.title.length > 0) {
-      this.props.todoAdded(this.state.title);
+      this.props.toAddTodo(this.state.title);
     }
   };
 }

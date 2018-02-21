@@ -49,9 +49,9 @@ export const addTodoStart = () => ({
     type: ADD_TODO_START
 })
 
-export const addTodoSuccess = (addedTodo) => ({
+export const addTodoSuccess = (todoToBeAdded) => ({
     type: ADD_TODO_SUCCESS,
-    payload: addedTodo
+    payload: todoToBeAdded
 })
 
 export const addTodoError = (error) => ({
