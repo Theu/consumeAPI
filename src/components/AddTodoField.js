@@ -10,9 +10,7 @@ class AddeTodoField extends React.Component {
   }
 
   static propTypes = {
-    placeholder: PropTypes.string,
-    onTitleChange: PropTypes.func,
-    handleClick: PropTypes.func
+    placeholder: PropTypes.string
   };
 
   render() {
