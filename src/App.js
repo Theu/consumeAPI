@@ -7,12 +7,13 @@ import {
 
   hasError,
   getErrorType
-  
+
 } from './redux/actions/selectors';
 
 import {loadTodos} from './redux/actions/actionsCreators';
 
 import TodoList from './components/TodoList';
+import AddTodoField from './components/AddTodoField';
 import LoadingMessage from './components/LoadingMessage';
 import ErrorHandler from './components/ErrorHandler';
 
@@ -46,9 +47,11 @@ class App extends React.Component {
           }
 
             <TodoList
-            todos={todoList}
-            todoRemove={() => this.deleteTodo}
-            valueButton={'delete to do'} />
+              todos={todoList}
+              todoRemove={() => this.deleteTodo}
+              valueButton={'delete to do'} />
+            <AddTodoField
+              placeholder={'add a todo'} />
         </div>
       );
     }
