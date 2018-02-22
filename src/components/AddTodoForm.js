@@ -5,7 +5,7 @@ class AddTodoForm extends React.Component {
 
   static propTypes = {
     placeholder: PropTypes.string
-  };
+  }
 
   render() {
     const {

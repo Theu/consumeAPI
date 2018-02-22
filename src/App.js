@@ -19,6 +19,12 @@ import LoadingMessage from './components/LoadingMessage';
 import ErrorHandler from './components/ErrorHandler';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: ''
+    }
+  }
 
   componentWillMount() {
     this.props.loadTodos();
@@ -67,7 +73,7 @@ class App extends React.Component {
 
   addTodoToServer = () => {
     if(this.state.title.length > 0) {
-      this.props.addTodo(this.state);
+      this.props.addTodo({ title: this.state.title });
     }
   };
 }
