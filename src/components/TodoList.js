@@ -19,7 +19,7 @@ class TodoList extends React.Component {
             todos
          } = this.props;
          return (
-            <ul className="todoList-wrapper">
+            <ul className='todoList-wrapper'>
                 {todos.map((key, value, id) => {
                     return (
                         <Todo

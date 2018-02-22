@@ -38,13 +38,13 @@ export const todoReducer = (state = initialState, action) => {
 
         case ADD_TODO_START:
             return {
-                ...state
+                ...state,
+                isLoading: true
             }
 
         case ADD_TODO_SUCCESS:
             return {
                 ...state,
-                isLoading: true,
                 todos: state.todos.concat(action.payload)
             }
 

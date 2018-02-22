@@ -5,7 +5,7 @@ class LogIn extends React.Component {
 
     render() {
         return (
-            <Link to="todo">
+            <Link to='todo'>
                 <h1>I am a log in</h1>
             </Link>
         )
