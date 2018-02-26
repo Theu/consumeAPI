@@ -61,10 +61,10 @@ export const addTodoError = (error) => ({
 
 export function addTodo(todo) {
     return dispatch => {
-        dispatch(addTodoStart())
+        dispatch(addTodoStart());
         postTodoToServer(todo)
         .then(response => {
-            dispatch(addTodoSuccess(todo))
+            dispatch(addTodoSuccess(response.config.data))
             dispatch(loadTodos())
         })
         .catch(error => {

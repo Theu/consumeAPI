@@ -24,6 +24,7 @@ export const todoReducer = (state = initialState, action) => {
             }
 
         case LOAD_TODOS_SUCCESS:
+        console.log('load', action);
             return {
                 ...state,
                 isLoading: false,
@@ -45,6 +46,7 @@ export const todoReducer = (state = initialState, action) => {
         case ADD_TODO_SUCCESS:
             return {
                 ...state,
+                isLoading: false,
                 todos: state.todos.concat(action.payload)
             }
 

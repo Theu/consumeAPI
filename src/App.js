@@ -73,7 +73,8 @@ class App extends React.Component {
 
   addTodoToServer = () => {
     if(this.state.title.length > 0) {
-      this.props.addTodo({ title: this.state.title });
+
+      this.props.addTodo(this.state);
     }
   };
 }
