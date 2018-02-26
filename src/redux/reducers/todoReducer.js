@@ -24,7 +24,6 @@ export const todoReducer = (state = initialState, action) => {
             }
 
         case LOAD_TODOS_SUCCESS:
-        console.log('load', action);
             return {
                 ...state,
                 isLoading: false,
