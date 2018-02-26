@@ -12,17 +12,19 @@ class Todo extends React.Component {
             id
          } = this.props;
 
-        return (
+         return (
             <div>
-                <li className='todo-wrapper'>
-                    {title}
-                    <input
-                        className='todo-button'
-                        type='submit'
-                        id={id}
-                        value={valueButton}
-                        onClick={todoRemove} />
-                </li>
+                {!!title &&
+                    <li className='todo-wrapper'>
+                        {title}
+                        <input
+                            className='todo-button'
+                            type='submit'
+                            id={id}
+                            value={valueButton}
+                            onClick={todoRemove} />
+                    </li>
+                }
             </div>
         )
     }
