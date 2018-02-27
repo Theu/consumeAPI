@@ -23,12 +23,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       title: ''
-    }
-  }
+    };
+  };
 
   componentWillMount() {
     this.props.loadTodos();
-  }
+  };
 
   render() {
     const {
@@ -65,7 +65,7 @@ class App extends React.Component {
 
       </div>
     );
-  }
+  };
 
   readInsertedTodo = event => {
     this.setState({ title: event.target.value });
@@ -77,7 +77,7 @@ class App extends React.Component {
       this.props.addTodo(this.state);
     }
   };
-}
+};
 
 function mapStateToProps(state) {
   return {

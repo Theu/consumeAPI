@@ -8,5 +8,5 @@ export function consumeApi(axios) {
     return {
         getTodosFromServer: () => axios.get(url),
         postTodoToServer: (todoTitle) => axios.post(url, todoTitle),
-    }
-}
+    };
+};

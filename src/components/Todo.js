@@ -1,8 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 
 import './todo.css';
 
 class Todo extends React.Component {
+
+    static propTypes = {
+        title: PropTypes.string.isRequired
+    };
 
     render() {
         const {
@@ -14,21 +20,19 @@ class Todo extends React.Component {
 
          return (
             <div>
-                {!!title &&
-                    <li className='todo-wrapper'>
-                        {title}
-                        <input
-                            className='todo-button'
-                            type='submit'
-                            id={id}
-                            value={valueButton}
-                            onClick={todoRemove} />
-                    </li>
-                }
+                <li className='todo-wrapper'>
+                    {title}
+                    <input
+                        className='todo-button'
+                        type='submit'
+                        id={id}
+                        value={valueButton}
+                        onClick={todoRemove} />
+                </li>
             </div>
-        )
-    }
-}
+        );
+    };
+};
 
 
 export default Todo;

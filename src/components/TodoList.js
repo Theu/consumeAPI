@@ -10,15 +10,16 @@ class TodoList extends React.Component {
         todos: PropTypes.array,
         todoRemove: PropTypes.func,
         valueButton: PropTypes.string
-    }
+    };
 
     render() {
         const {
             todoRemove,
             valueButton,
             todos
-         } = this.props;
-         return (
+        } = this.props;
+
+        return (
             <ul className='todoList-wrapper'>
                 {todos.map((key, value, id) => {
                     return (
@@ -32,8 +33,8 @@ class TodoList extends React.Component {
                     )
                 })}
             </ul>
-        )
-    }
-}
+        );
+    };
+};
 
 export default TodoList;
