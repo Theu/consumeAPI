@@ -10,7 +10,10 @@ import {
 
 } from './redux/actions/selectors';
 
-import {loadTodos} from './redux/actions/actionsCreators';
+import {
+  loadTodos,
+  deleteTodo
+} from './redux/actions/actionsCreators';
 
 import TodoList from './components/TodoList';
 import LoadingMessage from './components/LoadingMessage';
@@ -47,16 +50,15 @@ class App extends React.Component {
 
             <TodoList
             todos={todoList}
-            todoRemove={() => this.deleteTodo}
+            removeTodo={this.toRemoveTodo}
             valueButton={'delete to do'} />
         </div>
       );
     }
 
-    deleteTodo = (event) => {
-      console.log(event.target.id);
-      // this.props.todoRemove()
-  }
+    toRemoveTodo = (event) => {
+      this.props.deleteTodo(event.target.id);
+    }
 }
 
 
@@ -71,7 +73,8 @@ function mapStateToProps(state) {
 };
 
 const mapDispatchToProps = {
-  loadTodos
+  loadTodos,
+  deleteTodo
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

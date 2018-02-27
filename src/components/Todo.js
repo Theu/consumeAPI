@@ -6,7 +6,7 @@ class Todo extends React.Component {
 
     render() {
         const {
-            todoRemove,
+            removeTodo,
             valueButton,
             title,
             id
@@ -21,7 +21,7 @@ class Todo extends React.Component {
                         type='submit'
                         id={id}
                         value={valueButton}
-                        onClick={todoRemove} />
+                        onClick={removeTodo} />
                 </li>
             </div>
         )

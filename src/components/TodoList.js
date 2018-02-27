@@ -14,9 +14,9 @@ class TodoList extends React.Component {
 
     render() {
         const {
-            todoRemove,
             valueButton,
-            todos
+            todos,
+            removeTodo
          } = this.props;
          return (
             <ul className="todoList-wrapper">
@@ -27,7 +27,7 @@ class TodoList extends React.Component {
                             title={key.title}
                             id={key.id}
                             valueButton={valueButton}
-                            todoRemove={todoRemove(key.id)}
+                            removeTodo={removeTodo}
                         />
                     )
                 })}

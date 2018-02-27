@@ -14,7 +14,8 @@ import {
 } from '../../tools/serverRequests';
 
 const {
-    getTodosFromServer
+    getTodosFromServer,
+    deleteTodoFromServer
 } = consumeApi(axiosInstance)
 
 export const loadTodosStart = () => ({
@@ -40,6 +41,34 @@ export function loadTodos(todos) {
         })
         .catch(error => {
             dispatch(loadTodosError(error));
+        })
+    }
+}
+
+export const deleteTodoStart = () => ({
+    type: DELETE_TODO_START
+})
+
+export const deleteTodoSuccess = (todoToDeleteId) => ({
+    type: DELETE_TODO_SUCCESS,
+    payload: todoToDeleteId
+});
+
+export const deleteTodoError = (error) => ({
+    type: DELETE_TODO_FAILURE,
+    payload: error
+})
+
+
+export function deleteTodo(todoId) {
+    return dispatch => {
+        dispatch(deleteTodoStart());
+        deleteTodoFromServer(todoId)
+        .then(response => {
+            dispatch(deleteTodoSuccess(todoId));
+        })
+        .catch(error => {
+            dispatch(deleteTodoError())
         })
     }
 }
