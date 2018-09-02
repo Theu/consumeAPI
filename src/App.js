@@ -1,54 +1,97 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
-  getTodos
+  getTodos,
+  isLoading,
+  hasError,
+  getErrorType
 } from './redux/actions/selectors';
 
-import {loadTodos} from './redux/actions/actionsCreators';
+import {
+  loadTodos,
+  addTodo
+ } from './redux/actions/actionsCreators';
 
 import TodoList from './components/TodoList';
-import InputField from './components/InputField';
+import AddTodoForm from './components/AddTodoForm';
+import LoadingMessage from './components/LoadingMessage';
+import ErrorHandler from './components/ErrorHandler';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: ''
-    }
-  }
+    };
+  };
 
   componentWillMount() {
     this.props.loadTodos();
-  }
+  };
+
   render() {
     const {
-      todos
+      isLoading,
+      todoList,
+
+      hasError,
+      errorType
     } = this.props;
+
     return (
-        <div>
-          <h1>Todo's List</h1>
+      <div>
+        <h1>Todos List</h1>
 
-          <TodoList
-            todos={todos}
-            todoRemove={() => this.deleteTodo}
-            valueButton={'delete to do'} />
+        {hasError &&
+          <ErrorHandler failureReason={errorType} />
+        }
 
-        </div>
-      );
+        {isLoading &&
+          <LoadingMessage message={'Loading'} />
+        }
+
+        <TodoList
+          todos={todoList}
+          todoRemove={() => this.deleteTodo}
+          valueButton={'delete to do'}
+        />
+        {!isLoading &&
+          <AddTodoForm
+            placeholder={'add a todo'}
+            toAddTodo={this.addTodoToServer}
+            readInsertedTodo={this.readInsertedTodo} />
+        }
+
+      </div>
+    );
+  };
+
+  readInsertedTodo = event => {
+    this.setState({ title: event.target.value });
+  };
+
+  addTodoToServer = () => {
+    if(this.state.title.length > 0) {
+
+      this.props.addTodo(this.state);
     }
-}
-
+  };
+};
 
 function mapStateToProps(state) {
-  console.log('state', state);
   return {
-    todos: getTodos(state)
+    isLoading: isLoading(state),
+    todoList: getTodos(state),
+
+    hasError: hasError(state),
+    errorType: getErrorType(state)
   };
 }
 
 const mapDispatchToProps = {
-  loadTodos
-}
+  loadTodos,
+  addTodo
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
